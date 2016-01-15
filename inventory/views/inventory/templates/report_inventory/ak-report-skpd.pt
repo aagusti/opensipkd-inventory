@@ -1,0 +1,470 @@
+<html metal:use-macro="load: ../base.pt">
+  <div metal:fill-slot="content">
+    <h4>${request.title}</h4>
+    <hr>
+      <!--Tahun---------------------------------------------------------------->
+      <div class="row">
+        <div class="col-md-3">
+          <div id="item-tahun">
+            <label for="tahun" class="control-label col-md-3" id="req-tahun">
+                    Tahun</label>
+            <div class="col-md-9">
+               <input id="tahun" class=" form-control " type="text" 
+                      value="${request.session['tahun']}" 
+                      readonly name="tahun">
+            </div>
+          </div>
+        </div>
+        <!--div class="col-md-5">
+           <input id="tahun_nm" class=" form-control " type="text" value="${request.session['ag_step_nm']}" name="tahun_nm" readonly>
+        </div-->
+      </div>
+
+      <!----------------------------------------------------------------------->
+      <input id="unit_id" type="hidden" value="${request.session['unit_id']}" name="unit_id">
+      <div class="row"><!--SKPD-->
+        <div class="col-md-3">
+          <div id="item-unit_kd">
+            <label for="unit_kd" class="control-label col-md-3" id="req-unit_kd">
+                    SKPD</label>
+            <div class="col-md-9">
+               <input id="unit_kd" class="form-control typeahead" type="text" value="${request.session['unit_kd']}" name="unit_kd">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-5">
+           <input id="unit_nm" class=" form-control " type="text" value="${request.session['unit_nm']}" name="unit_nm">
+        </div>
+      </div>
+
+      <!--Rekening SAP--------------------------------------------------------------------->
+      <input id="rekening_sap_id" type="hidden" value="" name="rekening_sap_id">
+      <div class="row" id="div_rekeningsap"><!--SAP-->
+        <div class="col-md-3">
+          <div id="item-rekening_sap_kd">
+            <label for="rekening_sap_kd" class="control-label col-md-3" id="req-rekening_sap_kd">
+                    Rekening</label>
+            <div class="col-md-9">
+               <input id="rekening_sap_kd" class="form-control typeahead" type="text" value="" name="rekening_sap_kd">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-5">
+           <input id="rekening_sap_nm" class=" form-control " type="text" value="" name="rekening_sap_nm">
+        </div>
+      </div>
+
+      <!--Rekening APBD--------------------------------------------------------------------->
+      <input id="rekening_id" type="hidden" value="" name="rekening_id">
+      <div class="row" id="div_rekeningapbd"><!--SAP-->
+        <div class="col-md-3">
+          <div id="item-rekening_kd">
+            <label for="rekening_kd" class="control-label col-md-3" id="req-rekening_kd">
+                    Rekening</label>
+            <div class="col-md-9">
+               <input id="rekening_kd" class="form-control typeahead" type="text" value="" name="rekening_kd">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-5">
+           <input id="rekening_nm" class=" form-control " type="text" value="" name="rekening_nm">
+        </div>
+      </div>
+    <p>  
+  
+    <div class="panel panel-default  col-md-8">
+      <div class="panel-heading">
+        Jenis Laporan
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" name="ar-item-lap" id="ar-item-lap1" value="bb">
+              </span>
+              <input type="text" class="form-control" aria-label="..." readonly value="Buku Besar">
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" name="ar-item-lap" id="ar-item-lap2" value="lo">
+              </span>
+              <input type="text" class="form-control" aria-label="..." readonly value="Laporan Operasional">
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" name="ar-item-lap" id="ar-item-lap3" value="lrasap">
+              </span>
+              <input type="text" class="form-control" aria-label="..." readonly value="Laporan Realisasi Anggaran (SAP)">
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" name="ar-item-lap" id="ar-item-lap4" value="le">
+              </span>
+              <input type="text" class="form-control" aria-label="..." readonly value="Laporan Ekuitas">
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" name="ar-item-lap" id="ar-item-lap5" value="psal">
+              </span>
+              <input type="text" class="form-control" aria-label="..." readonly value="Perubahan SAL">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" name="ar-item-lap" id="ar-item-lap6" value="ro">
+              </span>
+              <input type="text" class="form-control" aria-label="..." readonly value="Rincian Objek">
+            </div>
+          </div>
+
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" name="ar-item-lap" id="ar-item-lap7" value="neraca">
+              </span>
+              <input type="text" class="form-control" aria-label="..." readonly value="Neraca">
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default col-md-4">
+      <div class="panel-heading">
+        Pilihan Kelompok
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" name="kelompok" id="kelompok1" value="1">
+              </span>
+              <input type="text" class="form-control" aria-label="..." readonly value="PPKD">
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" name="kelompok" id="kelompok2" value="2">
+              </span>
+              <input type="text" class="form-control" aria-label="..." readonly value="SKPD">
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+        </div>
+
+        <!--div class="row">
+          <div class="col-md-12">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" name="ar-item-lap" id="ar-item-lap2" value="2">
+              </span>
+              <input type="text" class="form-control" aria-label="..." readonly value="SKPD">
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-12">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" name="ar-item-lap" id="ar-item-lap2" value="2">
+              </span>
+              <input type="text" class="form-control" aria-label="..." readonly value="SKPD">
+            </div>
+          </div>
+        </div--><br><br><br>
+        
+      </div>
+    </div>
+
+
+    <div class="row">
+    </div>
+
+    <div class="row">
+      <label for="tanggal" class="control-label col-md-1" id="req-tanggal">
+              Periode</label>
+      <div class="col-md-3">
+         <input id="tanggal" class="form-control" type="text" readonly 
+                value="${request.session['tanggal']}" name="tanggal"/>
+      </div>
+      <div class="col-md-3">
+        <input id="tanggal2" class="form-control" type="text" readonly 
+                value="${request.session['tanggal2']}" name="tanggal"/>
+      </div>
+    <div class="row">
+      <button id="btn_pdf" class="btn btn-success" type="button"
+              name="btn_pdf">Cetak</button>
+      <button id="btn_close" class="btn btn-warning" type="button"
+              name="btn_close">Tutup</button>
+    </div>
+    </div>
+    <script>
+    // Kondisi pilih unit
+        $('#unit_kd').typeahead({
+            "hint": true,
+            "highlight": true,
+            "minLength": 1,
+            "remote": "/unit/act/headofkode?term=%QUERY", 
+        },
+        {
+          "name": 'unit_kd',
+          "displayKey": 'value',
+        }); 
+                
+        $('#unit_nm').typeahead({
+            "hint": true,
+            "highlight": true,
+            "minLength": 1,
+            "remote": "/unit/act/headofnama?term=%QUERY", 
+        },
+        {
+          "name": 'unit_nm',
+          "displayKey": 'value',
+        }); 
+         
+        function change_unit(){
+            $.ajax({
+              type: "POST",
+              url: "/unit/act/changeid",
+              data: "unit_id="+$('#unit_id').val(),
+              success: function (html) {
+                if (html.success == true) {
+                  $("#errors").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                  //reload_kegiatan();
+                } else {
+                  $("#errors").css('display', 'inline', 'important');
+                  $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                  $('#unit_kd').val('');
+                  $('#unit_nm').val('');
+                  $('#unit_id').val('');
+                }
+              },
+              beforeSend: function () {
+                $("#errors").css('display', 'inline', 'important');
+                $("#errors").html("<img src=\'${request.static_url('osipkd:static/images/ajax-loader.gif')}\' /> Loading...")
+              }
+            });
+        }
+        
+        $('#unit_kd').bind('typeahead:selected', function(obj, datum, name) {  
+              $('#unit_nm').val(datum.nama);
+              $('#unit_id').val(datum.id);
+              change_unit();
+        });
+
+        $('#unit_nm').bind('typeahead:selected', function(obj, datum, name) {      
+              $('#unit_kd').val(datum.kode);
+              $('#unit_id').val(datum.id);
+              change_unit();
+        });
+
+      $('#tanggal').click(
+          function(){
+            if (!Modernizr.inputtypes['date'] ||
+                "date" != "date"){
+              $('#tanggal').pickadate({"selectMonths": true,
+                "submitFormat": "yyyy-mm-dd", 
+                "selectYears": true, "format": "yyyy-mm-dd"});
+            }
+          }
+      );
+      $('#tanggal2').click(
+          function(){
+            if (!Modernizr.inputtypes['date'] ||
+                "date" != "date"){
+              $('#tanggal2').pickadate({"selectMonths": true,
+                "submitFormat": "yyyy-mm-dd", 
+                "selectYears": true, "format": "yyyy-mm-dd"});
+            }
+          }
+      );
+      
+      $('#tanggal, #tanggal2').change(function(){
+            if ($('#tanggal').val()>$('#tanggal2').val()){
+                $('#tanggal2').val($('#tanggal').val());
+            }
+            $.ajax({
+              type: "POST",
+              url: "/change/tanggal",
+              data: "tanggal="+$('#tanggal').val()+"&tanggal2="+$('#tanggal2').val(),
+              success: function (html) {
+                if (html.success == true) {
+                  $("#success").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                } else {
+                  $("#errors").css('display', 'inline', 'important');
+                  $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                }
+              },
+              beforeSend: function () {
+                $("#errors").css('display', 'inline', 'important');
+                $("#errors").html("<img src=\'${request.static_url('osipkd:static/images/ajax-loader.gif')}\' /> Loading...")
+              }
+            });
+      });
+
+      // Kondisi Awal
+      $('#div_rekeningsap').show();
+      $('#div_rekeningapbd').hide();
+
+      // Kondisi Jenis Laporan 
+      $('input[name="ar-item-lap"]').click(function(){
+          if($(this).val()=="lrasap"){
+              $('#div_rekeningsap').hide();
+              $('#div_rekeningapbd').hide();
+              $('#tanggal').show();
+              $('#tanggal2').show();
+              $('#req-tanggal').show();
+          }
+          else if($(this).val()=="lraapbd"){
+              $('#div_rekeningsap').hide();
+              $('#div_rekeningapbd').hide();
+              $('#tanggal').show();
+              $('#tanggal2').show();
+              $('#req-tanggal').show();
+          }
+          else if($(this).val()=="bb"){
+              $('#div_rekeningsap').show();
+              $('#div_rekeningapbd').hide();
+              $('#tanggal').show();
+              $('#tanggal2').show();
+              $('#req-tanggal').show();
+          }
+          else if($(this).val()=="lo"){
+              $('#div_rekeningsap').hide();
+              $('#div_rekeningapbd').hide();
+              $('#tanggal').hide();
+              $('#tanggal2').hide();
+              $('#req-tanggal').hide();
+              $('#div_rekeningsap').hide();
+          }
+          else{
+              $('#div_rekeningsap').show();
+              $('#div_rekeningapbd').hide();
+              $('#tanggal').show();
+              $('#tanggal2').show();
+              $('#req-tanggal').show();
+          }
+      });
+      
+      // Headof Rekening SAP
+      $('#rekening_sap_kd').typeahead({
+          "hint"     : true,
+          "highlight": true,
+          "minLength": 1,
+          "remote"   : "/sap/act/headofkode12?term=%QUERY", 
+      },{
+         "name"      : 'rekening_sap_kd',
+         "displayKey": 'value',
+      }); 
+              
+      $('#rekening_sap_nm').typeahead({
+          "hint"     : true,
+          "highlight": true,
+          "minLength": 1,
+          "remote"   : "/sap/act/headofnama12?term=%QUERY", 
+      },{
+         "name"      : 'rekening_sap_nm',
+         "displayKey": 'value',
+      }); 
+
+      $('#rekening_sap_kd').bind('typeahead:selected', function(obj, datum, name) {  
+            $('#rekening_sap_nm').val(datum.nama);
+            $('#rekening_sap_id').val(datum.id);
+      });
+
+      $('#rekening_sap_nm').bind('typeahead:selected', function(obj, datum, name) {      
+            $('#rekening_sap_kd').val(datum.kode);
+            $('#rekening_sap_id').val(datum.id);
+      });
+      
+      // Headof Rekening APBD
+      $('#rekening_kd').typeahead({
+          "hint"     : true,
+          "highlight": true,
+          "minLength": 1,
+          "remote"   : "/rekening/act/headofkode11?term=%QUERY", 
+      },{
+         "name"      : 'rekening_kd',
+         "displayKey": 'value',
+      }); 
+              
+      $('#rekening_nm').typeahead({
+          "hint"     : true,
+          "highlight": true,
+          "minLength": 1,
+          "remote"   : "/rekening/act/headofnama11?term=%QUERY", 
+      },{
+         "name"      : 'rekening_nm',
+         "displayKey": 'value',
+      }); 
+
+      $('#rekening_kd').bind('typeahead:selected', function(obj, datum, name) {  
+            $('#rekening_nm').val(datum.nama);
+            $('#rekening_id').val(datum.id);
+            $('#nama').val(datum.nama);
+      });
+
+      $('#rekening_nm').bind('typeahead:selected', function(obj, datum, name) {      
+            $('#rekening_kd').val(datum.kode);
+            $('#rekening_id').val(datum.id);
+            $('#nama').val(datum.nama);
+      });
+
+        $("#btn_close").click(function () {
+            window.location = '/skpd';
+            return false;
+        });
+
+      
+      $('#btn_pdf').click(function () {
+            var jenis = $('input[name="ar-item-lap"]:checked').val();
+            var kel = $('input[name="kelompok"]:checked').val();
+            var mulai = $('#tanggal').val();
+            var selesai = $('#tanggal2').val();
+            var sapid = $('#rekening_sap_id').val();
+            if(jenis==undefined) {
+                alert('Silahkan pilih jenis report yang akan ditampilkan!');
+                return;
+            }
+            if(kel==undefined) {
+                alert('Silahkan pilih kelompok yang akan ditampilkan!');
+                return;
+            }
+            window.open('/ak-report-skpd/act/'+jenis+'?kel='+kel+'&sapid='+sapid+'&mulai='+mulai+'&selesai='+selesai);
+      });
+      
+    </script>
+  </div>
+</html>

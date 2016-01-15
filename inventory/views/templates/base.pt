@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/static/img/favicon.png">
+
+    <title tal:content="request.title" />
+
+    <!-- Bootstrap core CSS -->
+    <link href="/deform_static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/deform_static/css/form.css" rel="stylesheet">
+    <link href="/deform_static/css/typeahead.css" rel="stylesheet">
+
+    <link href="/static/datatables/extensions/TableTools/css/dataTables.tableTools.min.css" rel="stylesheet">
+    <link href="/static/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet"> 
+	
+    <link href="/static/js/pickadate/themes/classic.css" rel="stylesheet">
+    <link href="/static/js/pickadate/themes/classic.date.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/static/css/navbar-fixed-top.css" rel="stylesheet">
+    <link href="/static/css/theme.css" rel="stylesheet">
+    <link href="/static/css/osipkd.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">inventory</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li tal:attributes="class request.path == '/' and 'active'"><a href="/">Beranda</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">RKBU <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/inventory/rkbu/plan">Rencana</a></li>                
+                <li><a href="/inventory/rkbu/approval">Approval</a></li>                
+                <li><a href="/inventory/rkbu/report">Laporan</a></li>                
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gudang <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/inventory/warehouse/receipt">Penerimaan</a></li>                
+                <li><a href="/inventory/warehouse/deliver">Pengiriman</a></li>                
+                <li><a href="/inventory/warehouse/adjust">Penyesuaian</a></li>                
+                <li><a href="/inventory/warehouse/report">Laporan</a></li>                
+              </ul>
+            </li>
+            
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Penggunaan <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/inventory/order">Order</a></li>                
+                <li><a href="/inventory/order/approval">Approval</a></li>                
+                <li><a href="/inventory/order/accept">Penerimaan</a></li>                
+                <li><a href="/inventory/order/report">Laporan</a></li>                
+              </ul>
+            </li>
+            
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Master <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/inventory/vendor">Vendor</a></li>
+                <li><a href="/inventory/measure">Satuan</a></li>    
+                <li><a href="/inventory/produk">Barang</a></li>    
+                <li><a href="/inventory/urusan">Urusan</a></li>             
+                <li><a href="/inventory/unit">Unit Kerja</a></li>             
+              </ul>
+            </li>
+            
+            <li class="dropdown" tal:attributes="class request.matched_route.name in ['user', 'user-add', 'user-edit', 'user-delete', 'group', 'group-add', 'group-edit', 'group-delete'] and 'active'">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/user">User</a></li>                
+                <li><a href="/group">Group</a></li>                
+                <li><a href="/routes">Route</a></li>           
+                <li><a href="/user/unit">User Unit</a></li>               
+                <li><a href="/user/group">User Groups</a></li>                
+                <li><a href="/group/routes">Group Permission</a></li>                
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav pull-right">  
+            <li class="dropdown" tal:attributes="class request.path in ['/password'] and 'active'">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Akun<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/logout">${request.user.nice_username()} Keluar</a></li>
+                <li><a href="/password">Ubah Kata Sandi</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+    
+      <div tal:condition="request.session.peek_flash()">
+        <div class="alert alert-success" tal:repeat="message request.session.pop_flash()">${message}</div>
+      </div>
+      <div tal:condition="request.session.peek_flash('error')">
+        <div class="alert alert-danger" tal:repeat="message request.session.pop_flash('error')">${message}</div>
+      </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="/deform_static/scripts/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="/deform_static/scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/deform_static/scripts/deform.js"></script>    
+    <script type="text/javascript" src="/deform_static/scripts/jquery.maskedinput-1.3.1.min.js"></script>    
+    <script type="text/javascript" src="/deform_static/scripts/modernizr.custom.input-types-and-atts.js"></script>
+    <script type="text/javascript" src="/static/js/pickadate/picker.js"></script>
+    <script type="text/javascript" src="/static/js/pickadate/picker.date.js"></script>
+    <script type="text/javascript" src="/static/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/static/datatables/media/js/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="/static/datatables/media/js/jquery.dataTables.ext.js"></script>
+    <script type="text/javascript" src="/deform_static/scripts/typeahead.min.js"></script>   
+
+    
+      <div metal:define-slot="content"></div>    
+
+    </div> <!-- /container -->
+
+    <div metal:define-slot="scripts"></div>    
+  </body>
+</html>
+

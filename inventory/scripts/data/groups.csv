@@ -1,0 +1,6 @@
+description,group_name,id,member_count
+"Bagian yang mengelola data administrasi atau keseluruhan.","Admin",1,0
+"Bagian yang mengelola data master.","Master",2,0
+"Bagian yang mengelola data RKBU.","RKBU",3,0
+"Bagian yang mengelola data pergudangan.","Gudang",4,0
+"Bagian yang mengelola data penggunaan atau order.","Penggunaan",5,0

@@ -1,0 +1,220 @@
+<html metal:use-macro="load: ../base.pt">
+  <div metal:fill-slot="content" class="container">
+        <h4>Laporan Realisasi Anggaran</h4>
+        <hr>
+    <script>
+    $(document).ready(function(){
+        $('#div_skpd').hide();
+        $('input[name="jenis"]').click(function(){
+            if($(this).val()=="1"){
+                $('#div_skpd').hide();
+            } else
+                $('#div_skpd').show();
+        });
+
+    
+        $('#btn_cetak').click(function () {
+            
+            var jenis = $('input[name="jenis"]:checked').val();
+            var tipe = $('input[name="tipe"]:checked').val();
+            var status = $('input[name="status"]:checked').val();
+            var bulan = $('#bulan').val();
+            if(jenis==undefined) {
+                alert('Silahkan pilih jenis laporan yang akan ditampilkan!');
+                return;
+            } 
+            if(status==undefined) {
+                alert('Silahkan pilih anggaran yang akan ditampilkan!');
+                return;
+            } 
+            if(tipe==undefined) {
+                alert('Silahkan pilih rekening yang akan ditampilkan!');
+                return;
+            } 
+            window.open('/ap-report-real/act/'+jenis+'?bulan='+bulan+'&tipe='+tipe+'&status='+status);
+        });
+
+        $('input[name="jenis"]').prop('checked', false);
+        $("#btn_close").click(function () {
+            window.location = '/tu-skpd';
+            return false;
+        });
+    });
+  
+    </script>
+    
+  <form id="header" method="POST" enctype="multipart/form-data" accept-charset="utf-8" 
+      class="form-horizontal">
+  <fieldset class="deformFormFieldset">
+    <div class="panel-heading">
+      <!--TAHUN---------------------------------------------------------------->
+      <div class="form-group">
+        <div class="col-md-3">
+          <div id="item-tahun">
+            <label for="tahun" class="control-label col-md-3" id="req-tahun">
+                    Tahun</label>
+            <div class="col-md-9">
+               <input id="tahun" class=" form-control " type="text" 
+                      value="${request.session['tahun']}" 
+                      readonly name="tahun">
+            </div>
+          </div>
+        </div>
+
+      <!--UNIT---------------------------------------------------------------->
+      <div class="form-group" id="div_skpd">
+        <input id="unit_id" type="hidden" value="${request.session['unit_id']}" name="unit_id">
+        <div class="col-md-3">
+          <div id="item-unit_kd">
+            <label for="unit_kd" class="control-label col-md-3" id="req-unit_kd">
+                    SKPD</label>
+            <div class="col-md-9">
+               <input id="unit_kd" class="form-control typeahead" type="text" value="${request.session['unit_kd']}" name="unit_kd">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-5">
+           <input id="unit_nm" class=" form-control " type="text" value="${request.session['unit_nm']}" name="unit_nm">
+        </div>        
+      </div>
+        </div>
+      <script>
+        $('#unit_kd').typeahead({
+            "hint": true,
+            "highlight": true,
+            "minLength": 1,
+            "remote": "/unit/act/headofkode?term=%QUERY", 
+        },
+        {
+          "name": 'unit_kd',
+          "displayKey": 'value',
+        }); 
+                
+        $('#unit_nm').typeahead({
+            "hint": true,
+            "highlight": true,
+            "minLength": 1,
+            "remote": "/unit/act/headofnama?term=%QUERY", 
+        },
+        {
+          "name": 'unit_nm',
+          "displayKey": 'value',
+        }); 
+        
+        function change_unit(){
+            $.ajax({
+              type: "POST",
+              url: "/unit/act/changeid",
+              data: "unit_id="+$('#unit_id').val(),
+              success: function (html) {
+                if (html.success == true) {
+                  $("#errors").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                  reload_kegiatan();
+                } else {
+                  $("#errors").css('display', 'inline', 'important');
+                  $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                  $('#unit_kd').val('');
+                  $('#unit_nm').val('');
+                  $('#unit_id').val('');
+                }
+              },
+              beforeSend: function () {
+                $("#errors").css('display', 'inline', 'important');
+                $("#errors").html("<img src=\'${request.static_url('osipkd:static/images/ajax-loader.gif')}\' /> Loading...")
+              }
+            });
+        }
+        
+        $('#unit_kd').bind('typeahead:selected', function(obj, datum, name) {  
+              $('#unit_nm').val(datum.nama);
+              $('#unit_id').val(datum.id);
+              change_unit();
+        });
+
+        $('#unit_nm').bind('typeahead:selected', function(obj, datum, name) {      
+              $('#unit_kd').val(datum.kode);
+              $('#unit_id').val(datum.id);
+              change_unit()
+        });
+      </script> 
+    </div>
+    
+    <div class="panel-body">
+        <div class="form-group" id="div_jenis">
+        <label class="control-label col-xs-2" for="jenis">Jenis Laporan</label>
+        <div class="col-sm-3">
+            <div class="radio">
+                <label><input type="radio" name="jenis" value="1">Realisasi</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="jenis" value="2">Realisasi/SKPD</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="jenis" value="3">Realisasi/SKPD/Kegiatan</label>
+            </div>
+        </div>
+        </div>
+        <br>
+        <div class="form-group" id="div_status">
+        <label class="control-label col-xs-2" for="status">APBD/PAPBD</label>
+        <div class="col-sm-3">
+            <div class="radio">
+                <label><input type="radio" name="status" value="1">APBD</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="status" value="2">Perubahan APBD</label>
+            </div>
+        </div>
+        </div>
+        <br>
+        <div class="form-group" id="div_tipe">
+        <label class="control-label col-xs-2" for="tipe">Rekening</label>
+        <div class="col-sm-3">
+            <div class="radio">
+                <label><input type="radio" name="tipe" value="3">Jenis</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="tipe" value="4">Objek</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="tipe" value="5">Rincian Objek</label>
+            </div>
+        </div>
+        </div>
+        <br>
+
+      <!--Priode S/d Bulan---------------------------------------------------------------->
+      <div class="form-group">
+            <label class="control-label col-xs-2" for="mulai">Periode s.d Bulan</label>
+              <div class="col-xs-2">
+                  <select class="form-control" id="bulan" name="bulan">
+                      <option value="1" >Januari</option>
+                      <option value="2" >Februari</option>
+                      <option value="3" >Maret</option>
+                      <option value="4" >April</option>
+                      <option value="5" >Mei</option>
+                      <option value="6" >Juni</option>
+                      <option value="7" >Juli</option>
+                      <option value="8" >Agustus</option>
+                      <option value="9" >September</option>
+                      <option value="10" >Oktober</option>
+                      <option value="11" >Nopember</option>
+                      <option value="12" >Desember</option>
+                  </select>
+              </div>
+      </div><br>
+    
+    <div class="form-group">
+        <div class="col-md-9">
+            <button id="btn_cetak" name="btn_cetak" type="button" class="btn btn-primary "
+          value="btn_cetak">Cetak</button>
+            <button id="btn_close" name="btn_close" type="button" class="btn btn-warning"
+          value="btn_close">Tutup</button>
+        </div>  
+    </div>    
+
+  </fieldset>
+</form>
+  </div> 
+</html>

@@ -1,0 +1,93 @@
+<html metal:use-macro="load: ../base.pt">
+  <div metal:fill-slot="content" class="container">
+        <h4>Laporan admin</h4>
+        <hr>
+    <script>
+    $(document).ready(function(){
+        $('#btn_cetak').click(function () {
+            
+            var unit = $('#unit_id').val();
+            var level = $('input[name="level"]:checked').val();
+            if(level==undefined) {
+                alert('Silahkan pilih data Level yang akan ditampilkan!');
+                return;
+            } 
+            window.open('/inventory/order/report/laporan/act?unit='+unit+'&level='+level);
+        });
+
+        $("#btn_close").click(function () {
+            window.location = '/inventory';
+            return false;
+        });
+    });
+  
+    </script>
+    
+  <form id="header" method="POST" enctype="multipart/form-data" accept-charset="utf-8" 
+      class="form-horizontal">
+  <fieldset class="deformFormFieldset">
+    <div class="panel-heading">
+    <div class="panel-body">
+	    
+        <div class="form-group">
+            <!----------------------------------------------------------------------->
+            <input id="unit_id" type="hidden" value="unit_id" name="unit_id">
+                <div id="item-unit_kd">
+                  <label for="unit_kd" class="control-label col-md-2" id="req-unit_kd">
+                          Unit Kerja</label>
+                  <div class="col-md-2">
+                     <input id="unit_kd" class="form-control typeahead" type="text" value="" name="unit_kd">
+                  </div>
+                </div>
+              
+              <div class="col-md-7">
+                 <input id="unit_nm" class=" form-control " type="text" value="" name="unit_nm">
+              </div>
+            <script>
+                $('#unit_nm').typeahead({
+                     "hint"     : true,
+                     "highlight": true,
+                     "minLength": 1,
+                     "remote"   : "/inventory/unit/headofnama/act?term=%QUERY",
+                },{
+                    "name"      : 'unit_nm',
+                    "displayKey": 'value',
+                });
+        
+                $('#unit_nm').bind('typeahead:selected', function(obj, datum, name) {      
+                      $('#unit_id').val(datum.id);
+	    			  $('#unit_kd').val(datum.kode);
+	    			  
+                });
+	    		$("#unit_kd").attr('readonly',true);
+            </script>
+	    </div>
+        <div class="form-group" id="div_status">
+        <label class="control-label col-xs-2" for="level">Level Approval</label>
+        <div class="col-sm-3">
+            <div class="radio">
+                <label><input type="radio" name="level" value="0">0</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="level" value="1">1</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="level" value="2">2</label>
+            </div>
+        </div>
+        </div>
+        <br>
+    
+    <div class="form-group">
+        <div class="col-md-9">
+            <button id="btn_cetak" name="btn_cetak" type="button" class="btn btn-primary "
+          value="btn_cetak">Cetak</button>
+            <button id="btn_close" name="btn_close" type="button" class="btn btn-warning"
+          value="btn_close">Tutup</button>
+        </div>  
+    </div>    
+
+  </fieldset>
+</form>
+  </div> 
+</html>

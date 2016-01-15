@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Laporan_Triwulan" language="groovy" pageWidth="612" pageHeight="972" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="xPath">
+		<![CDATA[/order/order_appr]]>
+	</queryString>
+	<field name="request_kd" class="java.lang.String">
+		<fieldDescription><![CDATA[request_kd]]></fieldDescription>
+	</field>
+	<field name="request_nm" class="java.lang.String">
+		<fieldDescription><![CDATA[request_nm]]></fieldDescription>
+	</field>
+	<field name="unit_kd" class="java.lang.String">
+		<fieldDescription><![CDATA[unit_kd]]></fieldDescription>
+	</field>
+	<field name="unit_nm" class="java.lang.String">
+		<fieldDescription><![CDATA[unit_nm]]></fieldDescription>
+	</field>
+	<field name="approval_date" class="java.lang.String">
+		<fieldDescription><![CDATA[approval_date]]></fieldDescription>
+	</field>
+	<field name="approval_level" class="java.lang.String">
+		<fieldDescription><![CDATA[approval_level]]></fieldDescription>
+	</field>
+	<field name="produk_kd" class="java.lang.String">
+		<fieldDescription><![CDATA[produk_kd]]></fieldDescription>
+	</field>
+	<field name="produk_nm" class="java.lang.String">
+		<fieldDescription><![CDATA[produk_nm]]></fieldDescription>
+	</field>
+	<field name="price" class="java.lang.String">
+		<fieldDescription><![CDATA[price]]></fieldDescription>
+	</field>
+	<field name="qty" class="java.lang.String">
+		<fieldDescription><![CDATA[qty]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="119" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="49"/>
+				<textElement textAlignment="Center" markup="none">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BERITA ACARA
+STOK OPNAME / PEMERIKSAAN BERKALA ATASAN LANGSUNG
+BARANG CETAKAN DAN ALAT TULIS KANTOR (ATK)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="69" width="555" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nomor :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="49" width="555" height="20"/>
+				<textElement textAlignment="Center" markup="none">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SEMESTER "]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="18" splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="311" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="555" height="30"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pada hari ini "++" tanggal "++" bulan "++" tahun "++" kami yang bertanda tangan di bawah ini : "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="30" width="88" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nama Lengkap "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="47" width="88" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NIP "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="64" width="88" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Jabatan "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="86" width="555" height="47"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sesuai dengan elah Peraturan Daerah Kota Bogor Nomor 6 Tahun 2007 tentang Pengelolaan Barang Milik Daerah (Lembaran Daerah Tahun 2007 Nomor 2 Seri E) telah melaksanakan Pemeriksaaan Berkala terhadap Penyimpanan Barang Unit terhadap : "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="168" width="88" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Jabatan "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="151" width="88" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NIP "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="134" width="88" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nama Lengkap "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="188" width="555" height="50"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Yang berdasarkan Surat Keputusan Sekretaris Daerah Kota Bogor Nomor : 027.45-4 Tahun 2015 Tanggal 2 Januari 2015 diberikan tugas untuk melaksanakan Penyimpanan Barang Unit serta pertanggung jawaban atas Pengelolaan Barang Cetakan dan Alat Tulis Kantor yang ada di bawah pengurusannya."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="238" width="555" height="61"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Berdasarkan hasil Stock Opname dan Pemeriksaan secara berkala dengan disertai bukti-bukti yang ada dalam pengurusannya kami mendapatkan sisa stock barang cetakan dan alat tulis kantor sebagaimana diuraikan dalam Lampiran Berita Acara Stock Opname/Pemeriksaan Berkala Atasan Langsung Barang Cetakan dan Alat Tulis Kantor ini."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="126" y="168" width="429" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[": "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="126" y="134" width="429" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[": "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="126" y="151" width="429" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[": "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="126" y="64" width="429" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[": "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="126" y="30" width="429" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[": "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="126" y="47" width="429" height="17"/>
+				<textElement verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[": "]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="36" splitType="Stretch">
+			<textField>
+				<reportElement x="525" y="8" width="30" height="16"/>
+				<textElement textAlignment="Right" verticalAlignment="Top" markup="none">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="174" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="16"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="394" y="30" width="161" height="32"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Penyimpan Barang Unit
+DISPENDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="394" y="133" width="161" height="16"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="421" y="149" width="134" height="16"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NIP."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="394" y="16" width="161" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bogor,      "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="149" width="134" height="16"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NIP."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="38" y="30" width="177" height="64"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Pemeriksa
+(Atasan Langsung)
+Kepala Dinas Pendapatan Daerah
+Kota Bogor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="133" width="161" height="16"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

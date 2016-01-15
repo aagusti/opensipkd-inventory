@@ -1,0 +1,120 @@
+<html metal:use-macro="load: ../base.pt">
+  <div metal:fill-slot="content">
+    <h4>${request.title}</h4>
+    <hr>
+    <table id="table1" class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Group ID</th>
+                <th>Route ID</th>
+                <th>Group Nama</th>
+                <th>Route Nama</th>
+                <th>Path</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+  </div>
+  <div metal:fill-slot="scripts">
+    <script>
+      var mID;
+      var mID2;
+      var mThn;
+      var oTable;
+      var iPos;
+      var oTableUrl = "/group/routes/grid/act";
+        
+      $(document).ready(function () {
+        oTable = $('#table1').dataTable({
+          "sDom"           : '<"toolbar">lfrtip',
+          "sAjaxSource"    : oTableUrl,
+          "bStateSave"     : true,
+          "bServerSide"    : true,
+          "bProcessing"    : true,
+          "bScrollCollapse": true,
+          "bSort"          : true,
+          "bInfo"          : false,
+          "bFilter"        : true,
+          "bAutoWidth"     : false,
+          "bPaginate"      : true,
+          "sPaginationType": "full_numbers",
+          
+          "lengthMenu": [
+              [10, 25, 50, 100, 250],
+              [10, 25, 50, 100, 250]
+          ],
+          "aoColumnDefs": [{
+                        "bSearchable": false,
+                        "bVisible": false,
+                        "aTargets": [0,1]
+                    }],
+          "aoColumns": [
+              {"width": "100px"},
+              {"width": "100px"},
+              null,
+              null,
+              null
+          ]
+        });
+          
+        var tb_array = [
+          '<div class="btn-group pull-left">',
+          '	<button id="btn_add"    class="btn btn btn-primary" type="button">Tambah</button>',
+          '	<button id="btn_delete" class="btn btn btn-danger"  type="button">Hapus</button>',
+          '	<button id="btn_print"  class="btn btn btn-primary" type="button">Cetak</button>',
+          '	<button id="btn_close"  class="btn btn btn-warning" type="button">Tutup</button>',
+          '	&nbsp;',
+          '</div>',
+        ];
+
+
+        var tb = tb_array.join(' ');
+        $("div.toolbar").html(tb);
+        $("div.toolbar").attr('style', 'display:block; float: left; margin-bottom:6px; line-height:16px;');
+        $('#table1 tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                iPos = oTable.fnGetPosition(this);
+                var aData = oTable.fnGetData(iPos);
+                //mID = aData[0];
+                oTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                mID  = aData[0];
+                mID2 = aData[1];
+                
+                oTable.$('tr.row_selected').removeClass('row_selected');
+                $(this).addClass('row_selected');
+                
+            }
+        });
+        
+        $('#btn_add').click(function () {
+            window.location = '/group/routes/add';
+        });
+
+        $('#btn_edit').click(function () {
+            if (mID && mID2) window.location = '/group/routes/'+mID+'/'+mID2+'/edit';
+            else alert('Pilih Baris yang akan di edit');
+        });
+
+        $('#btn_delete').click(function () {
+            if (mID && mID2) window.location = '/group/routes/'+mID+'/'+mID2+'/delete';
+            else alert('Pilih Baris yang akan di hapus');
+        });
+
+        $('#btn_print').click(function () {
+            url = '/admin/report/act/guper'
+			window.open(url);
+        });
+
+        $("#btn_close").click(function () {
+            window.location = '/';
+            return false;
+        });
+        })
+    </script>
+  </div>
+</html>

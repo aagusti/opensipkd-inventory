@@ -1,0 +1,132 @@
+<html metal:use-macro="load: ../base.pt">
+
+<div metal:fill-slot="content">
+<h3>${request.title}</h3>
+<hr>
+<table id="table1" class="table ">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Kode</th>
+            <th>Nama</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+</div>
+  <div metal:fill-slot="scripts">
+    <script>
+      var listUrl = "/inventory/vendor";
+      var mID;
+      var mThn;
+      var oTable;
+      var iPos;
+      var oTableUrl = listUrl+"/grid/act";
+      Number.prototype.formatMoney = function(decPlaces, thouSeparator, decSeparator) {
+        var n = this,
+            decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
+            decSeparator = decSeparator == undefined ? "." : decSeparator,
+            thouSeparator = thouSeparator == undefined ? "," : thouSeparator,
+            sign = n < 0 ? "-" : "",
+            i = parseInt(n = Math.abs(+n || 0).toFixed(decPlaces)) + "",
+            j = (j = i.length) > 3 ? j % 3 : 0;
+        return sign + (j ? i.substr(0, j) + thouSeparator : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + (decPlaces ? decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) : "");
+      };
+
+        
+      $(document).ready(function () {
+        oTable = $('#table1').dataTable({
+          "sDom"           : '<"toolbar">lfrtip',
+          "sAjaxSource"    : oTableUrl,
+          "bStateSave"     : true,
+          "bServerSide"    : true,
+          "bProcessing"    : true,
+          "bScrollCollapse": true,
+          "bSort"          : true,
+          "bInfo"          : false,
+          "bFilter"        : true,
+          "bAutoWidth"     : false,
+          "bPaginate"      : true,
+          "sPaginationType": "full_numbers",
+          
+          "lengthMenu": [
+              [10, 25, 50, 100],
+              [10, 25, 50, 100]
+          ],
+          "aoColumnDefs": [
+		  {
+              "bSearchable": false,
+              "bVisible"   : false,
+              "aTargets"   : [0]
+          }
+		  ],
+          "aoColumns": [
+              null,
+              {"width": "250px"},
+              null,
+          ]
+        });
+          
+        var tb_array = [
+          '<div class="btn-group pull-left">',
+          '	<button id="btn_add"    class="btn btn btn-primary" type="button">Tambah</button>',
+          '	<button id="btn_edit"   class="btn btn btn-primary" type="button">Edit</button>',
+          '	<button id="btn_delete" class="btn btn btn-danger"  type="button">Hapus</button>',
+          '	<button id="btn_print"  class="btn btn btn-primary" type="button">Cetak</button>',
+          '	<button id="btn_close"  class="btn btn btn-warning" type="button">Tutup</button>',
+          '	&nbsp;',
+          '</div>',
+        ];
+
+
+        var tb = tb_array.join(' ');
+        $("div.toolbar").html(tb);
+        $("div.toolbar").attr('style', 'display:block; float: left; margin-bottom:6px; line-height:16px;');
+        $('#table1 tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                iPos = oTable.fnGetPosition(this);
+                var aData = oTable.fnGetData(iPos);
+                //mID = aData[0];
+                oTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                mID = aData[0];
+                        oTable.$('tr.row_selected').removeClass('row_selected');
+                        $(this).addClass('row_selected');
+                        /*oTable2.fnReloadAjax("egaji/grid2?id=" + mID);*/                
+            }
+        });
+        
+        $('#btn_add').click(function () {
+            window.location = listUrl+'/add';
+        });
+
+        $('#btn_edit').click(function () {
+            if (mID) window.location = listUrl+'/'+mID+'/edit';
+            else alert('Pilih Baris yang akan di edit');
+        });
+
+        $('#btn_delete').click(function () {
+            if (mID) window.location = listUrl+'/'+mID+'/delete';
+            else alert('Pilih Baris yang akan di hapus');
+        });
+
+        $('#btn_print').click(function () {
+            url = '/inventory/order/report/act/vendor?vendor_id='+mID
+			
+			if (mID) window.open(url);
+            else window.open('/inventory/order/report/act/vendor2');
+            
+        });
+
+        $("#btn_close").click(function () {
+            window.location = '/inventory';
+            return false;
+        });
+        })
+    </script>
+</div>
+
+</html>

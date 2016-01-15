@@ -1,0 +1,11 @@
+<html metal:use-macro="load: ../base.pt">
+<div metal:fill-slot="content">
+<h3>Edit User</h3>
+<div tal:content="structure form"/>
+<script>
+  $('#unit_nm').bind('typeahead:selected', function(obj, datum, name) {      
+        $('#unit_id').val(datum.id);
+  });
+</script>  
+</div>
+</html>

@@ -1,0 +1,217 @@
+<html metal:use-macro="load: ../base.pt">
+
+<div metal:fill-slot="content">
+<h4>User Group</h4>
+<hr>
+<div class="col-xs-4">
+  <div class="panel panel-default" title="">
+    <div class="panel-heading">Group</div>
+    <div class="panel-body">
+    <table id="grpTable" class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Kode</th>
+                <th>Uraian</th>
+                <th>Anggota</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<div class="col-xs-8">
+  <div class="panel panel-default" title="">
+    <div class="panel-heading">Member</div>
+    <div class="panel-body">
+    <table id="table1" class="table ">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>User Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+</div><!--metal-->
+  <div metal:fill-slot="scripts">
+    <script>
+      var mGID;
+      var oTableGrp;
+      var iPos;
+      var oTableGrpUrl = "/group/grid/act";
+      
+      $(document).ready(function () {
+        oTableGrp = $('#grpTable').dataTable({
+          "sDom"           : '<"toolbar0">lfrtip',
+          "sAjaxSource"    : oTableGrpUrl,
+          "bStateSave"     : true,
+          "bServerSide"    : true,
+          "bProcessing"    : true,
+          "bScrollCollapse": true,
+          "bSort"          : true,
+          "bInfo"          : false,
+          "bFilter"        : true,
+          "bAutoWidth"     : false,
+          "bPaginate"      : true,
+          "sPaginationType": "full_numbers",
+          "bLengthChange"  :false,
+          /*"lengthMenu": [
+              [10, 25, 50, 100],
+              [10, 25, 50, 100]
+          ],*/
+          "aoColumnDefs": [{
+                        "bSearchable": false,
+                        "bVisible": false,
+                        "aTargets": [0]
+                    }],
+          "aoColumns": [
+              null,
+              {"width": "50px"},
+              null,
+              {"width": "60px", "sClass":"center"},
+          ]
+        });
+          
+        /*var tb_arrayGrp = [
+          '<div class="btn-group pull-left">',
+          '	<button id="btn_add" class="btn btn btn-primary" type="button">Tambah</button>',
+          '	<button id="btn_edit" class="btn btn btn-primary" type="button">Edit</button>',
+          '	<button id="btn_delete" class="btn btn btn-danger" type="button">Hapus</button>',
+          '	<button id="btn_pdf" class="btn btn btn-warning" type="button">PDF</button>',
+          '	<button id="btn_csv" class="btn btn btn-default" type="button">CSV</button>',
+          '	&nbsp;',
+          '</div>',
+        ];*/
+
+
+        /*var tb = tb_arrayGrp.join(' ');
+        $("grpTable div.toolbar").html(tb);
+        $("grpTable div.toolbar").attr('style', 'display:block; float: left; margin-bottom:6px; line-height:16px;');
+        */
+        $('#grpTable tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                iPos = oTableGrp.fnGetPosition(this);
+                var aData = oTableGrp.fnGetData(iPos);
+                oTableGrp.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                mGID = aData[0];
+                        oTableGrp.$('tr.row_selected').removeClass('row_selected');
+                        $(this).addClass('row_selected');
+                        oTable.fnReloadAjax(oTableUrl+"?gid=" + mGID);                
+            }
+        });
+        
+        /*$('#btn_add').click(function () {
+            window.location = '/group/add';
+        });
+
+        $('#btn_edit').click(function () {
+            if (mID) window.location = '/group/'+mID+'/edit';
+            else alert('Pilih Baris yang akan di edit');
+        });
+
+        $('#btn_delete').click(function () {
+            if (mID) window.location = '/group/'+mID+'/delete';
+            else alert('Pilih Baris yang akan di hapus');
+        });*/
+        })
+    </script>
+  
+  
+    <script>
+      var mID;
+      var oTable;
+      var iPos;
+      var oTableUrl = "/user/group/member/act";
+       
+      $(document).ready(function () {
+        oTable = $('#table1').dataTable({
+          "sDom"           : '<"toolbar">lfrtip',
+          "sAjaxSource"    : oTableUrl,
+          "bStateSave"     : true,
+          "bServerSide"    : true,
+          "bProcessing"    : true,
+          "bScrollCollapse": true,
+          "bSort"          : true,
+          "bInfo"          : false,
+          "bFilter"        : true,
+          "bAutoWidth"     : false,
+          "bPaginate"      : true,
+          "sPaginationType": "full_numbers",
+          
+          "lengthMenu": [
+              [10, 25, 50, 100],
+              [10, 25, 50, 100]
+          ],
+          "aoColumnDefs": [{
+                        "bSearchable": false,
+                        "bVisible": false,
+                        "aTargets": [0]
+                    }],
+          "aoColumns": [
+              null,
+              {"width": "120px"},
+              null,
+              {"width": "50px", "sClass":"left"},
+          ]
+        });
+          
+        var tb_array = [
+          '<div class="btn-group pull-left">',
+          '	<button id="btn_add" class="btn btn btn-primary" type="button">Tambah</button>',
+          '	<button id="btn_delete" class="btn btn btn-danger" type="button">Hapus</button>',
+          '	<!--button id="btn_pdf" class="btn btn btn-warning" type="button">PDF</button>',
+          '	<button id="btn_csv" class="btn btn btn-default" type="button">CSV</button-->',
+          '	&nbsp;',
+          '</div>',
+        ];
+
+
+        var tb = tb_array.join(' ');
+        $("div.toolbar").html(tb);
+        $("div.toolbar").attr('style', 'display:block; float: left; margin-bottom:6px; line-height:16px;');
+        $('#table1 tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                iPos = oTable.fnGetPosition(this);
+                var aData = oTable.fnGetData(iPos);
+                oTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                mID = aData[0];
+                        oTable.$('tr.row_selected').removeClass('row_selected');
+                        $(this).addClass('row_selected');
+            }
+        });
+        
+        $('#btn_add').click(function () {
+            window.location = '/user/group/add?gid='+mGID;
+        });
+
+        $('#btn_edit').click(function () {
+            if (mID) window.location = '/user/group/'+mID+'/edit?gid='+mGID;
+            else alert('Pilih Baris yang akan di edit');
+        });
+
+        $('#btn_delete').click(function () {
+            if (mID) window.location = '/user/group/'+mID+'/delete?gid='+mGID;
+            else alert('Pilih Baris yang akan di hapus');
+        });
+        })
+    </script>
+</div>
+
+</html>

@@ -1,0 +1,182 @@
+<html metal:use-macro="load: ../base.pt">
+  <div metal:fill-slot="content" class="container">
+        <h4>Laporan Gudang</h4>
+        <hr>
+    <script>
+    $(document).ready(function(){
+        $('#div_produk').show();
+        $('#div_tanggal').show();
+        $('#div_triwulan').hide();
+        $('#div_tahun').hide();
+        $('input[name="jenis"]').click(function () {
+            var jenis1 = $(this).val();
+            if (jenis1=='1' || jenis1=='2' || jenis1=='3' ) {
+                $('#div_produk').show();
+                $('#div_tanggal').show();
+                $('#div_triwulan').hide();
+                $('#div_tahun').hide();
+              }
+            else if (jenis1=='4') {
+                $('#div_produk').hide();
+                $('#div_tanggal').hide();
+                $('#div_triwulan').show();
+                $('#div_tahun').show();
+              }  
+            else if (jenis1=='5') {
+                $('#div_produk').hide();
+                $('#div_tanggal').hide();
+                $('#div_triwulan').hide();
+                $('#div_tahun').show();
+              }  
+        });
+        
+        $('#btn_cetak').click(function () {
+            var product = $('#product_id').val();
+			      var mulai   = $('#tanggal').val();
+            var selesai = $('#tanggal2').val();
+            var triwulan = $('#triwulan').val();
+            var tahun = $('#tahun').val();
+
+            var jenis = $('input[name="jenis"]:checked').val();
+            if(jenis==undefined) {
+                alert('Silahkan pilih laporan yang akan ditampilkan!');
+                return;
+            }
+            
+            window.open('/inventory/warehouse/report/act/laporan'+jenis+'?product='+product+'&mulai='+mulai+'&selesai='+selesai+'&triwulan='+triwulan+'&tahun='+tahun);
+        });
+        
+        $("#btn_close").click(function () {
+            window.location = '/inventory';
+            return false;
+        });
+    });
+  
+    </script>
+    
+  <form id="header" method="POST" enctype="multipart/form-data" accept-charset="utf-8" 
+      class="form-horizontal">
+  <fieldset class="deformFormFieldset">
+    <div class="panel-heading">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-3">            
+            <div class="radio">
+                <label><input type="radio" name="jenis" value="1">Jumlah Barang per Periode</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="jenis" value="2">Kartu Barang</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="jenis" value="3">Kartu Persediaan Barang</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="jenis" value="4">Laporan Triwulan</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="jenis" value="5">Laporan Tahunan</label>
+            </div>
+            <br>
+            <div class="col-md-0">
+              <button id="btn_cetak" name="btn_cetak" type="button" class="btn btn-primary "
+                  value="btn_cetak">Cetak</button>
+              <button id="btn_close" name="btn_close" type="button" class="btn btn-warning"
+                  value="btn_close">Tutup</button>
+            </div>          
+        </div>
+        <div class="col-sm-9">
+          <div class="form-group" id="div_produk">
+              <!----------------------------------------------------------------------->
+              <input id="product_id" type="hidden" value="product_id" name="product_id">
+                  <div id="item-product_kd">
+                    <label for="product_kd" class="control-label col-md-1" id="req-product_kd">
+                            Barang</label>
+                    <div class="col-md-2">
+                       <input id="product_kd" class="form-control" type="text" value="" name="product_kd">
+                    </div>
+                  </div>
+                
+                <div class="col-md-7">
+                   <input id="product_nm" class=" form-control " type="text" value="" name="product_nm">
+                </div>
+              <script>
+                  $('#product_nm').typeahead({
+                      "hint"     : true,
+                      "highlight": true,
+                      "minLength": 1,
+              "limit"    : 15,
+                      "remote"   : "/inventory/produk/hon_deliver/act?term=%QUERY", 
+                  },{
+                     "name"      : 'product_nm',
+                     "displayKey": 'value',
+                  }); 
+                  
+                  $('#product_nm').bind('typeahead:selected', function(obj, datum, name) {  
+                        $('#product_id').val(datum.id);
+                        $('#product_kd').val(datum.kode);
+                  });
+            $("#product_kd").attr('readonly',true);
+              </script>
+          </div>
+          <div class="form-group" id="div_tanggal">
+                  <label class="control-label col-md-1">Periode</label>
+                  <div class="col-md-2">
+                      <input id="tanggal" class="form-control" type="date" 
+                          value="" name="tanggal"/>
+                  </div>
+            <label class="control-label col-md-1">s.d</label>
+                  <div class="col-md-2">
+                      <input id="tanggal2" class="form-control" type="date"  
+                          value="" name="tanggal2"/>
+                  </div>
+            <script>
+                    $('#tanggal').click(
+                          function(){
+                            if (!Modernizr.inputtypes['date'] ||
+                                "date" != "date"){
+                              $('#tanggal').pickadate({"selectMonths": true,
+                                "submitFormat": "yyyy-mm-dd", 
+                                "selectYears": true, "format": "yyyy-mm-dd"});
+                            }
+                          }
+                      );
+                      $('#tanggal2').click(
+                          function(){
+                            if (!Modernizr.inputtypes['date'] ||
+                                "date" != "date"){
+                              $('#tanggal2').pickadate({"selectMonths": true,
+                                "submitFormat": "yyyy-mm-dd", 
+                                "selectYears": true, "format": "yyyy-mm-dd"});
+                            }
+                          }
+                      );
+            </script>
+          </div>
+          <div class="form-group" id="div_triwulan">
+                  <label class="control-label col-md-1">Triwulan</label>
+                    <div class="col-xs-2">
+                        <select class="form-control" id="triwulan" name="triwulan">
+                            <option value="1" >1</option>
+                            <option value="2" >2</option>
+                            <option value="3" >3</option>
+                            <option value="4" >4</option>
+                        </select>
+                    </div>
+          </div>
+          <div class="form-group" id="div_tahun">
+                  <label class="control-label col-md-1">Tahun</label>
+                  <div class="col-md-2">
+                      <input id="tahun" class="form-control" type="text" 
+                          value="" name="tahun"/>
+                  </div>
+          </div>
+        </div>
+	    
+		
+		<!--Mulai S/d---------------------------------------------------------------->
+		<br>
+    
+  </fieldset>
+</form>
+  </div> 
+</html>

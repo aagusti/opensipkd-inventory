@@ -1,0 +1,25 @@
+<html metal:use-macro="load: base.pt">
+<div metal:fill-slot="content">
+
+<!-- Main component for a primary marketing message or call to action -->
+<div class="well">
+<h1>Inventory</h1>
+<p><img src="/static/img/inventory.png" class="img-float img-thumbnail"/>
+Selamat datang di aplikasi <code>Managemen Inventory</code>, Aplikasi ini menggunakan
+<a href="http://pylonsproject.org/">Pyramid</a> Web Framework dan 
+<a href="http://postgresql.org/">Postgresql</a> Database.</p>
+
+<p>Aplikasi <code>Managemen Inventory</code> ini digunakan untuk mengelola penerimaan dan penggunaan 
+barang inventaris yang digunakan pada dinas dengan mempunyai feature utama :
+<br>
+<ul>
+   <li> Rencana Kebutuhan Barang Unit</li>
+   <li> Perekaman Barang Masuk ke Gudang</li>
+   <li> Perekaman Barang Keluar dari Gudang</li>
+   <li> Pemesanan Barang oleh unit kerja</li>
+</ul>
+</p>
+</div><!--well-->
+
+</div>
+</html>

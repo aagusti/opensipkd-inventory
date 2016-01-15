@@ -1,0 +1,15 @@
+<html metal:use-macro="load: ../base.pt">
+<div metal:fill-slot="content">
+<h3>Tambah User Group</h3>
+<div tal:content="structure form"/>
+<script>
+  $('#user_nm').bind('typeahead:selected', function(obj, datum, name) {      
+        $('#user_id').val(datum.id);
+  });
+  $('#group_nm').bind('typeahead:selected', function(obj, datum, name) {      
+        $('#group_id').val(datum.id);
+  });
+</script>
+
+</div>
+</html>

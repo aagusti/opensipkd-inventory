@@ -1,0 +1,413 @@
+<html metal:use-macro="load: ../base.pt">
+  <div metal:fill-slot="content" class="container">
+        <h4>Laporan Belanja</h4>
+    <hr>
+    <script>
+    $(document).ready(function(){
+        $('#div_jenis').hide();
+        $('#div_tipe').hide();
+        $('#div_bulan').hide();
+        $('#div_tanggal').hide();
+        $('input[name="rpt"]').click(function(){
+            if($(this).val()=="1"){
+                $('#div_jenis').hide();
+                $('#div_tipe').show();
+                $('#div_bulan').hide();
+                $('#div_tanggal').show();
+                $('#custom').hide();
+                $('#gaji').hide();
+                $('#ppnpph').hide();
+            }
+            if($(this).val()=="2"){
+                $('#div_jenis').show();
+                $('#div_tipe').show();
+                $('#div_bulan').hide();
+                $('#div_tanggal').show();
+                $('#potongan').hide();
+                $('#custom').hide();
+                $('#gaji').hide();
+                $('#ppnpph').hide();
+                $('#skpd').show();
+                $('#21').hide();
+            }
+            if($(this).val()=="3"){
+                $('#div_jenis').show();
+                $('#div_tipe').show();
+                $('#div_bulan').hide();
+                $('#div_tanggal').show();
+                $('#potongan').show();
+                $('#custom').hide();
+                $('#gaji').hide();
+                $('#ppnpph').hide();
+                $('#skpd').hide();
+                $('#21').show();
+            }
+            if($(this).val()=="4"){
+                $('#div_jenis').hide();
+                $('#div_tipe').hide();
+                $('#div_bulan').show();
+                $('#div_tanggal').hide();
+                $('#custom').hide();
+                $('#gaji').hide();
+                $('#ppnpph').hide();
+                $('#skpd').hide();
+                $('#21').hide();
+            }
+            if($(this).val()=="5"){
+                $('#div_jenis').hide();
+                $('#div_tipe').hide();
+                $('#div_bulan').show();
+                $('#div_tanggal').hide();
+                $('#custom').hide();
+                $('#gaji').hide();
+                $('#ppnpph').hide();
+            }
+            if($(this).val()=="6"){
+                $('#div_jenis').show();
+                $('#div_tipe').show();
+                $('#div_bulan').hide();
+                $('#div_tanggal').show();
+                $('#potongan').hide();
+                $('#custom').show();
+                $('#gaji').show();
+                $('#ppnpph').show();
+                $('#skpd').hide();
+                $('#21').show();
+            }
+        });
+
+        $('input[name="jenis"]').click(function(){
+            if($(this).val()=="1"){
+                $('#div_tipe').show();
+            }
+            if($(this).val()=="2"){
+                $('#div_tipe').hide();
+            }
+            if($(this).val()=="21"){
+                $('#div_tipe').show();
+            }
+        });
+
+        $('#tanggal').click(
+            function(){
+              if (!Modernizr.inputtypes['date'] ||
+                  "date" != "date"){
+                $('#tanggal').pickadate({"selectMonths": true,
+                  "submitFormat": "yyyy-mm-dd", 
+                  "selectYears": true, "format": "yyyy-mm-dd"});
+              }
+            }
+        );
+        $('#tanggal2').click(
+            function(){
+              if (!Modernizr.inputtypes['date'] ||
+                  "date" != "date"){
+                $('#tanggal2').pickadate({"selectMonths": true,
+                  "submitFormat": "yyyy-mm-dd", 
+                  "selectYears": true, "format": "yyyy-mm-dd"});
+              }
+            }
+        );
+        
+        /**$('#tanggal, #tanggal2').change(function(){
+              if ($('#tanggal').val()>$('#tanggal2').val()){
+                  $('#tanggal2').val($('#tanggal').val());
+              }
+              $.ajax({
+                type: "POST",
+                url: "/change/tanggal",
+                data: "tanggal="+$('#tanggal').val()+"&tanggal2="+$('#tanggal2').val(),
+                success: function (html) {
+                  if (html.success == true) {
+                    $("#success").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                  } else {
+                    $("#errors").css('display', 'inline', 'important');
+                    $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                  }
+                },
+                beforeSend: function () {
+                  $("#errors").css('display', 'inline', 'important');
+                  $("#errors").html("<img src=\'${request.static_url('osipkd:static/images/ajax-loader.gif')}\' /> Loading...")
+                }
+              });
+        });*/
+        
+        $('#btn_cetak').click(function () {
+            if($('#unit_nm').val()=='Pilih Unit') {
+                alert('Silahkan pilih Unit terlebih dahulu!');
+                return;
+            }
+            
+            var rpt = $('input[name="rpt"]:checked').val();
+            var jenis = $('input[name="jenis"]:checked').val();
+            var tipe = $('#tipe').val();
+            var mulai = $('#tanggal').val();
+            var selesai = $('#tanggal2').val();
+            var bulan = $('#bulan').val();
+            
+            if(rpt==undefined) {
+                alert('Silahkan pilih jenis laporan yang akan ditampilkan!');
+                return;
+            }
+            if($('#tanggal').val()=='') {
+                alert('Silahkan isikan tanggal terlebih dahulu!');
+                return;
+            }
+            if($('#tanggal2').val()=='') {
+                alert('Silahkan isikan tanggal terlebih dahulu!');
+                return;
+            }
+            
+            if(rpt=="2" || rpt=="3" || rpt=="6") {
+              if(jenis==undefined) {
+                alert('Silahkan pilih format laporan yang akan ditampilkan!');
+                return;
+              } 
+              window.open('/ap-report-skpd/act/'+rpt+jenis+'?tipe='+tipe+'&mulai='+mulai+'&selesai='+selesai);
+            } else {
+              if(rpt=="4" || rpt=="5") {
+                window.open('/ap-report-skpd/act/'+rpt+'?bulan='+bulan);
+              } else {
+                window.open('/ap-report-skpd/act/'+rpt+'?tipe='+tipe+'&mulai='+mulai+'&selesai='+selesai);
+              }
+            }
+        });
+
+        $("#btn_close").click(function () {
+            window.location = '/tu-skpd';
+            return false;
+        });
+
+        $('input[name="jenis"]').prop('checked', false);
+
+    });
+  
+    </script>
+    
+  <form id="header" method="POST" enctype="multipart/form-data" accept-charset="utf-8" 
+      class="form-horizontal">
+  <fieldset class="deformFormFieldset">
+    <div class="panel-heading">
+      <!--TAHUN---------------------------------------------------------------->
+      <div class="form-group">
+        <div class="col-md-3">
+          <div id="item-tahun">
+            <label for="tahun" class="control-label col-md-3" id="req-tahun">
+                    Tahun</label>
+            <div class="col-md-9">
+               <input id="tahun" class=" form-control " type="text" 
+                      value="${request.session['tahun']}" 
+                      readonly name="tahun">
+            </div>
+          </div>
+        </div>
+
+      <!--UNIT---------------------------------------------------------------->
+        <input id="unit_id" type="hidden" value="${request.session['unit_id']}" name="unit_id">
+        <div class="col-md-3">
+          <div id="item-unit_kd">
+            <label for="unit_kd" class="control-label col-md-3" id="req-unit_kd">
+                    SKPD</label>
+            <div class="col-md-9">
+               <input id="unit_kd" class="form-control typeahead" type="text" value="${request.session['unit_kd']}" name="unit_kd">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-5">
+           <input id="unit_nm" class=" form-control " type="text" value="${request.session['unit_nm']}" name="unit_nm">
+        </div>        
+      </div>
+
+      <script>
+        $('#unit_kd').typeahead({
+            "hint": true,
+            "highlight": true,
+            "minLength": 1,
+            "remote": "/unit/act/headofkode?term=%QUERY", 
+        },
+        {
+          "name": 'unit_kd',
+          "displayKey": 'value',
+        }); 
+                
+        $('#unit_nm').typeahead({
+            "hint": true,
+            "highlight": true,
+            "minLength": 1,
+            "remote": "/unit/act/headofnama?term=%QUERY", 
+        },
+        {
+          "name": 'unit_nm',
+          "displayKey": 'value',
+        }); 
+        
+        function change_unit(){
+            $.ajax({
+              type: "POST",
+              url: "/unit/act/changeid",
+              data: "unit_id="+$('#unit_id').val(),
+              success: function (html) {
+                if (html.success == true) {
+                  $("#errors").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                  reload_kegiatan();
+                } else {
+                  $("#errors").css('display', 'inline', 'important');
+                  $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                  $('#unit_kd').val('');
+                  $('#unit_nm').val('');
+                  $('#unit_id').val('');
+                }
+              },
+              beforeSend: function () {
+                $("#errors").css('display', 'inline', 'important');
+                $("#errors").html("<img src=\'${request.static_url('osipkd:static/images/ajax-loader.gif')}\' /> Loading...")
+              }
+            });
+        }
+        
+        $('#unit_kd').bind('typeahead:selected', function(obj, datum, name) {  
+              $('#unit_nm').val(datum.nama);
+              $('#unit_id').val(datum.id);
+              change_unit();
+        });
+
+        $('#unit_nm').bind('typeahead:selected', function(obj, datum, name) {      
+              $('#unit_kd').val(datum.kode);
+              $('#unit_id').val(datum.id);
+              change_unit()
+        });
+      </script> 
+    </div>
+    
+    <div class="panel-body">
+        <div class="form-group">
+        <label class="control-label col-xs-2" for="jenis">Jenis Laporan</label>
+        <div class="col-sm-2">
+            <div class="radio">
+                <label><input type="radio" name="rpt" value="1">Tagihan/Utang</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="rpt" value="2">Register SPP</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="rpt" value="3">Register SPM</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="rpt" value="6">Register SP2D</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="rpt" value="4">SPJ Fungsional</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="rpt" value="5">SPJ Administratif</label>
+            </div>
+        </div>
+
+        <div class="form-group" id="div_jenis">
+            <div class="row">
+                <label class="control-label col-xs-2" for="jenis">Format Laporan</label>
+                <div class="col-xs-2">
+                    <div class="form-group"> 
+                        <div class="radio">
+                            <label><input type="radio" name="jenis" value="1">Standard</label>
+                        </div>
+                        <div class="radio" id="skpd">
+                            <label><input type="radio" name="jenis" value="2">SKPD</label>
+                        </div>
+                        <div class="radio" id="21">
+                            <label><input type="radio" name="jenis" value="21">SKPD</label>
+                        </div>
+                        <div class="radio" id="potongan">
+                            <label><input type="radio" name="jenis" value="3">Pajak/Potongan</label>
+                        </div>
+                        <div class="radio" id="custom">
+                            <label><input type="radio" name="jenis" value="4">Custom</label>
+                        </div>
+                        <div class="radio" id="gaji">
+                            <label><input type="radio" name="jenis" value="5">Gaji</label>
+                        </div>
+                        <div class="radio" id="ppnpph">
+                            <label><input type="radio" name="jenis" value="6">PPN/PPH</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div><br>
+
+      <!--Mulai S/d---------------------------------------------------------------->
+      <div class="form-group" id="div_tanggal">
+        <label class="control-label col-xs-1" for="jenis"></label>
+        <div class="col-md-3">
+               <label class="control-label col-md-3" for="jenis">Mulai</label>
+               <div class="col-md-9">
+                   <input id="tanggal" class="form-control" type="text" readonly 
+                          value="${request.session['tanggal']}" name="tanggal"/>
+               </div>
+        </div>
+
+        <div class="col-md-3">
+               <div class="input-group">
+                   <span class="input-group-addon">s.d</span>
+                  <input id="tanggal2" class="form-control" type="text" readonly 
+                          value="${request.session['tanggal2']}" name="tanggal"/>
+               </div>
+        </div>
+      </div>       
+
+      <!--Type---------------------------------------------------------------->
+      <div class="form-group" id="div_tipe">
+        <label class="control-label col-xs-1" for="jenis"></label>
+        <div class="col-md-3">
+               <label class="control-label col-md-3" for="jenis">Type</label>
+                <div class="col-md-9">
+                    <select class="form-control" id="tipe" name="tipe">
+                        <option value="0">Semua Jenis</option>
+                        <option value="1">UP</option>
+                        <option value="2">TU</option>
+                        <option value="3">GU</option>
+                        <option value="4">LS</option>
+                    </select>
+                </div>
+        </div>
+      </div>       
+    
+      <!--Priode S/d Bulan---------------------------------------------------------------->
+      <div class="form-group" id="div_bulan">
+            <label class="control-label col-xs-2" for="mulai">Periode s.d Bulan</label>
+              <div class="col-xs-2">
+                  <select class="form-control" id="bulan" name="bulan">
+                      <option value="1" >Januari</option>
+                      <option value="2" >Februari</option>
+                      <option value="3" >Maret</option>
+                      <option value="4" >April</option>
+                      <option value="5" >Mei</option>
+                      <option value="6" >Juni</option>
+                      <option value="7" >Juli</option>
+                      <option value="8" >Agustus</option>
+                      <option value="9" >September</option>
+                      <option value="10" >Oktober</option>
+                      <option value="11" >Nopember</option>
+                      <option value="12" >Desember</option>
+                  </select>
+              </div>
+      </div> <br> 
+        <div class="form-group">
+            <div class="col-md-3">
+              <div id="item-tahun">
+                <label class="control-label col-md" >
+                        </label>
+                <div class="col-md-9">
+              <button class="btn btn-primary" type="button" name="btn_cetak" id="btn_cetak">Cetak</button>
+              <button class="btn btn-warning" type="button" name="btn_close" id="btn_close">Tutup</button>
+
+                </div>
+              </div>
+            </div>
+        </div><br>   
+  </fieldset>
+</form>
+  </div> 
+</html>
