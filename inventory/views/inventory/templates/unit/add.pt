@@ -54,6 +54,7 @@
                  "hint"     : true,
                  "highlight": true,
                  "minLength": 1,
+				 "limit"    : 15,
                  "remote"   : "/inventory/urusan/headofnama/act?term=%QUERY",
             },{
                 "name"      : 'urusan_nm',
@@ -84,6 +85,7 @@
                  "hint"     : true,
                  "highlight": true,
                  "minLength": 1,
+				 "limit"    : 15,
                  "remote"   : "/inventory/unit/headofnama/act?term=%QUERY",
             },{
                 "name"      : 'parent_nm',

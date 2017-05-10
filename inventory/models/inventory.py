@@ -149,12 +149,12 @@ class ProductDeliverItem(Base, DefaultModel):
 class ProductAdjust(Base, osExtendModel):
     __tablename__  = 'product_adjusts'
     __table_args__ = {'extend_existing':True, 'schema' : 'apbd',}
-    product_accept_id = Column(Integer, ForeignKey("apbd.product_accepts.id"), nullable=False)
+    #product_accept_id = Column(Integer, ForeignKey("apbd.product_accepts.id"), nullable=False)
     unit_id           = Column(Integer, ForeignKey("pemda.units.id"),          nullable=False)
     adjust_date       = Column(DateTime)
     disabled          = Column(SmallInteger)
     units             = relationship("Unit",          backref=backref('product_adjusts'))
-    product_accepts   = relationship("ProductAccept", backref=backref('product_adjusts'))
+    #product_accepts   = relationship("ProductAccept", backref=backref('product_adjusts'))
  
 ## Warehouse Adjust Item ## 
 class ProductAdjustItem(Base, DefaultModel):

@@ -1,0 +1,369 @@
+<html metal:use-macro="load: ../base.pt">
+
+<div metal:fill-slot="content">
+    <h4>Hak Akses Group</h4>
+    <hr>
+    <div class="col-xs-4">
+      <div class="panel panel-default" title="">
+        <div class="panel-heading">Group</div>
+        <div class="panel-body">
+        <table id="grpTable" class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Kode</th>
+                    <th>Uraian</th>
+                    <th>Anggota</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-xs-8">
+      <div class="panel panel-default" title="">
+        <div class="panel-heading">Hak Akses</div>
+        <div class="panel-body">
+        <table id="table1" class="table ">
+            <thead>
+                <tr>
+                    <th><input name="select_all" value="1" type="checkbox" onclick="cek_id()"></th>
+                    <th>Kode</th>
+                    <th>Nama</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div metal:fill-slot="scripts">
+    <script>
+    //--------------------- Untuk tabel Group --------------------------//
+      var mGID;
+      var oTableGrp;
+      var iPos;
+      var oTableGrpUrl = "/group/grid/act";
+      
+      $(document).ready(function () {
+        oTableGrp = $('#grpTable').dataTable({
+          "sDom"           : '<"toolbar0">lfrtip',
+          "sAjaxSource"    : oTableGrpUrl,
+          "bStateSave"     : true,
+          "bServerSide"    : true,
+          "bProcessing"    : true,
+          "bScrollCollapse": true,
+          "bSort"          : true,
+          "bInfo"          : false,
+          "bFilter"        : true,
+          "bAutoWidth"     : false,
+          "bPaginate"      : true,
+          "sPaginationType": "full_numbers",
+          "bLengthChange"  : false,
+          "aoColumnDefs"   : [
+          {
+              "bSearchable": false,
+              "bVisible"   : false,
+              "aTargets"   : [0]
+          }],
+          "aoColumns": [
+              null,
+              {"width": "50px"},
+              null,
+              {"width": "60px", "sClass":"center"},
+          ]
+        });
+          
+        $('#grpTable tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                iPos = oTableGrp.fnGetPosition(this);
+                var aData = oTableGrp.fnGetData(iPos);
+                oTableGrp.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                mGID = aData[0];
+                        oTableGrp.$('tr.row_selected').removeClass('row_selected');
+                        $(this).addClass('row_selected');
+                        oTable.fnReloadAjax(oTableUrl+"?gid=" + mGID);                
+            }
+        });
+      })
+    </script>
+  
+    
+    <script>
+    //--------------------- Untuk tabel Route --------------------------//
+      var mID;
+      var oTable;
+      var iPos;
+      var oTableUrl = "/route/group/akses/act";
+      var rows_selected = [];
+      
+      $( document ).ready(function() {
+        oTable = $('#table1').dataTable({
+          "sDom"           : '<"toolbar">lfrtip',
+          "sAjaxSource"    : oTableUrl,
+          "bStateSave"     : true,
+          "bServerSide"    : true,
+          "bProcessing"    : true,
+          "bScrollCollapse": true,
+          "bSort"          : true,
+          "bInfo"          : false,
+          "bFilter"        : true,
+          "bAutoWidth"     : false,
+          "bPaginate"      : true,
+          "sPaginationType": "full_numbers",
+          "iDisplayLength" : 25,
+          "lengthMenu": [
+              [10, 25, 50, 100],
+              [10, 25, 50, 100]
+          ],
+          "aoColumnDefs": [{
+              "aTargets"   : [0],  
+              "bSearchable": false,
+              "bVisible"   : true,           
+              "orderable"  : false,
+              "className"  : "dt-body-center",
+              "bSortable"  : false,
+              "render"     : function (data, type, full, meta){
+                             return '<input type="checkbox">';
+                           }
+          },{
+              "aTargets"   : [3], // Untuk Checked
+              "bSortable"  : false,  
+              "bSearchable": false,
+              "mRender"    : function (data, type, full) {
+                  if (data == "0") {
+                      return 'N';
+                  } else if (data == "1") {
+                      return 'Y';
+                  }
+              }
+          }],
+          "aoColumns": [
+              {"width": "5px", "sClass":"center"},
+              {"width": "120px"},
+              {"width": "120px"},
+              {"width": "5px", "sClass":"center"},
+          ],
+          "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+              var rowId = aData[0];
+              if($.inArray(rowId, rows_selected) !== -1){
+                  $(nRow).find('input[type="checkbox"]').prop('checked', true);
+                  $(nRow).addClass('selected');
+              }
+              //Kondisi Background-color Posting
+              switch(aData[3]){
+                  case '1' :
+                      $('td',nRow).css("background-color","#ddffdd")
+                      break;
+              }
+          },
+        });
+
+        var style_posted = "";
+        var style_unposted = "";
+        
+        var tb_array = [
+          '<div class="btn-group pull-left">',
+          '	<button id="btn_proses" class="btn btn btn-success" type="button">Tambah</button>',
+          '	<button id="btn_delete" class="btn btn btn-danger"  type="button">Hapus</button>',
+          '	<!--button id="btn_pdf" class="btn btn btn-warning" type="button">PDF</button>',
+          '	<button id="btn_csv" class="btn btn btn-default" type="button">CSV</button-->',
+          '	&nbsp;',
+          '</div>',
+        ];
+
+        var tb = tb_array.join(' ');
+        $("div.toolbar").html(tb);
+        $("div.toolbar").attr('style', 'display:block; float: left; margin-bottom:6px; line-height:16px;');
+        
+        /***
+        $('#table1 tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                iPos = oTable.fnGetPosition(this);
+                var aData = oTable.fnGetData(iPos);
+                oTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                mID = aData[0];
+                        oTable.$('tr.row_selected').removeClass('row_selected');
+                        $(this).addClass('row_selected');
+            }
+        });
+        ***/
+        
+        $('#btn_proses').click(function () {
+          if (rows_selected.length>0) {
+           $.ajax({
+            type : "POST",
+            url  : "/route/group/add",
+            data : { rid : rows_selected.join(","), gid : mGID },
+            success: function (html) {
+              if (html.success == true) {
+                $("#success").css('display', 'inline', 'important');
+                $("#success").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                rows_selected = [];
+                oTable.api().ajax.reload();} 
+              else {
+                $("#errors").css('display', 'inline', 'important');
+                $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                }
+              } 
+            });
+          } 
+          else {
+            alert('Silahkan pilih data yang akan dijadikan hak ases group.');
+          }
+        });
+        
+        $('#btn_delete').click(function () {
+          if (rows_selected.length>0) {
+           $.ajax({
+            type : "POST",
+            data : { rid : rows_selected.join(","), gid : mGID },
+            url  : "/route/group/'+rid+'/delete",
+            success: function (html) {
+              if (html.success == true) {
+                $("#success").css('display', 'inline', 'important');
+                $("#success").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                rows_selected = [];
+                oTable.api().ajax.reload();} 
+              else {
+                $("#errors").css('display', 'inline', 'important');
+                $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                }
+              } 
+            });
+          } 
+          else {
+            alert('Silahkan pilih data yang akan dihapus dari hak akses group.');
+          }
+        });
+
+        /***        
+        $('#btn_edit').click(function () {
+            if (mID) window.location = '/route/group/'+mID+'/edit?gid='+mGID;
+            else alert('Pilih Baris yang akan di edit');
+        });
+
+        $('#btn_delete').click(function () {
+            if (mID) window.location = '/route/group/'+mID+'/delete?gid='+mGID;
+            else alert('Pilih Baris yang akan di hapus');
+        });
+        
+        function cek_id() {
+           //document.getElementById("demo").style.color = "red";
+           $.ajax({
+            type : "POST",
+            url  : "/route/group/add",
+            data : { rid : rows_selected.join(","), gid : mGID },
+            success: function (html) {
+              if (html.success == true) {
+                $("#success").css('display', 'inline', 'important');
+                $("#success").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                rows_selected = [];
+                oTable.api().ajax.reload();} 
+              else {
+                $("#errors").css('display', 'inline', 'important');
+                $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                }
+              } //end if
+            });
+        }
+        ***/
+
+        function updateDataTableSelectAllCtrl(table){
+          var $table             = table.api().table().node();
+          var $chkbox_all        = $('tbody input[type="checkbox"]', $table);
+          var $chkbox_checked    = $('tbody input[type="checkbox"]:checked', $table);
+          var chkbox_select_all  = $('thead input[name="select_all"]', $table).get(0);
+          // If none of the checkboxes are checked
+          if($chkbox_checked.length === 0){
+            chkbox_select_all.checked = false;
+            if('indeterminate' in chkbox_select_all){
+               chkbox_select_all.indeterminate = false;
+            }
+      
+          // If all of the checkboxes are checked
+          } else if ($chkbox_checked.length === $chkbox_all.length){
+            chkbox_select_all.checked = true;
+            if('indeterminate' in chkbox_select_all){
+               chkbox_select_all.indeterminate = false;
+            }
+      
+          // If some of the checkboxes are checked
+          } else {
+            chkbox_select_all.checked = true;
+            if('indeterminate' in chkbox_select_all){
+               chkbox_select_all.indeterminate = true;
+            }
+          }
+        }
+        
+        // Handle click on checkbox
+        $('#table1 tbody').on('click', 'input[type="checkbox"]', function(e){
+          var $row = $(this).closest('tr');
+        
+          // Get row data
+          var data = oTable.fnGetData($row );
+        
+          // Get row ID
+          var rowId = data[0];
+        
+          // Determine whether row ID is in the list of selected row IDs 
+          var index = $.inArray(rowId, rows_selected);
+        
+          // If checkbox is checked and row ID is not in list of selected row IDs
+          if(this.checked && index === -1){
+             rows_selected.push(rowId);
+        
+          // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
+          } else if (!this.checked && index !== -1){
+             rows_selected.splice(index, 1);
+          }
+        
+          if(this.checked){
+             $row.addClass('selected');
+          } else {
+             $row.removeClass('selected');
+          }
+        
+          // Update state of "Select all" control
+          
+          updateDataTableSelectAllCtrl(oTable);
+          
+          // Prevent click event from propagating to parent
+          e.stopPropagation();
+        });
+     
+        // Handle click on "Select all" control
+        $('#table1 thead input[name="select_all"]').on('click', function(e){
+          if(this.checked){
+             $('#table1 tbody input[type="checkbox"]:not(:checked)').trigger('click');
+          } else {
+             $('#table1 tbody input[type="checkbox"]:checked').trigger('click');
+          }
+        
+          // Prevent click event from propagating to parent
+          e.stopPropagation();
+        });
+        
+        // Handle table draw event
+        oTable.on('draw', function(){
+          // Update state of "Select all" control
+          updateDataTableSelectAllCtrl(oTable);
+        });
+      })
+    </script>
+</div>
+</html>

@@ -522,24 +522,16 @@ class ViewInventoryLap():
                                     ProductAdjust.nama.label('adjust_nm'),
                                     Unit.kode.label('unit_kd'),
                                     Unit.nama.label('unit_nm'),
-                                    ProductAccept.kode.label('accept_kd'),
-                                    ProductAccept.nama.label('accept_nm'),
                                     ProductAdjust.adjust_date,
                                     Product.kode.label('produk_kd'),
                                     Product.nama.label('produk_nm'),
                                     ProductAdjustItem.qty.label('qty'),
-                                    ProductAcceptItem.qty.label('a_qty'), 
-                                    ProductDeliverItem.qty.label('d_qty'),
-                            ).join(ProductAdjustItem, Unit, ProductAccept
-                            ).outerjoin(Product, ProductAcceptItem, ProductDeliverItem
-                            ).filter(ProductAdjust.id                    == adjust_id, 
-                                     ProductAdjust.product_accept_id     == ProductAccept.id,	  
+                            ).join(ProductAdjustItem, Unit
+                            ).outerjoin(Product
+                            ).filter(ProductAdjust.id                    == adjust_id, 	  
                                      ProductAdjust.unit_id               == Unit.id,	 
                                      ProductAdjustItem.product_adjust_id == ProductAdjust.id,	
-                                     ProductAdjustItem.product_id        == Product.id,	
-                                     ProductAccept.product_deliver_id    == ProductDeliverItem.product_deliver_id,					   
-                                     ProductAcceptItem.product_accept_id == ProductAccept.id,
-                                     ProductAcceptItem.product_id        == ProductDeliverItem.product_id,									 
+                                     ProductAdjustItem.product_id        == Product.id									 
                             ).all()
             generator = warehouse_adjust_Generator()
             pdf = generator.generate(query)
@@ -1005,14 +997,10 @@ class warehouse_adjust_Generator(JasperGenerator):
             ET.SubElement(xml_greeting, "adjust_nm").text     = row.adjust_nm
             ET.SubElement(xml_greeting, "unit_kd").text       = row.unit_kd
             ET.SubElement(xml_greeting, "unit_nm").text       = row.unit_nm
-            ET.SubElement(xml_greeting, "accept_kd").text     = row.accept_kd
-            ET.SubElement(xml_greeting, "accept_nm").text     = row.accept_nm
             ET.SubElement(xml_greeting, "adjust_date").text   = unicode(row.adjust_date)
             ET.SubElement(xml_greeting, "produk_kd").text     = row.produk_kd
             ET.SubElement(xml_greeting, "produk_nm").text     = row.produk_nm
             ET.SubElement(xml_greeting, "qty").text           = unicode(row.qty)
-            ET.SubElement(xml_greeting, "a_qty").text         = unicode(row.a_qty)
-            ET.SubElement(xml_greeting, "d_qty").text         = unicode(row.d_qty)
         return self.root			
 
 # Laporan Gudang #

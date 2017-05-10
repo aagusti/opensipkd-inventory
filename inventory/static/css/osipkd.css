@@ -122,10 +122,10 @@ table.dataTable tbody > tr > td{
 }
 
 table.dataTable tr.even.selected td {
-	background-color: #B0BED9;
+	background-color: #B0BED9 !important;
 }
 table.dataTable tr.odd.selected td {
-	background-color: #9FAFD1;
+	background-color: #9FAFD1 !important;
 }
 
 table.dataTable tr.even td {

@@ -73,66 +73,8 @@
             $('#unit_nm').bind('typeahead:selected', function(obj, datum, name) {      
                   $('#unit_id').val(datum.id);
 				  $('#unit_kd').val(datum.kode);
-				  
-		          $('#product_accept_nm').typeahead({
-                       "hint"     : true,
-                       "highlight": true,
-                       "minLength": 1,
-				       "limit"    : 15,
-                       "remote"   : "/inventory/order/accept/hon_adjust/act?unit_id="+$("#unit_id").val()+"&term=%QUERY",
-                  },{
-                      "name"      : 'product_accept_nm',
-                      "displayKey": 'value',
-                  });
-			
-                  $('#product_accept_nm').bind('typeahead:selected', function(obj, datum, name) {      
-                      $('#product_accept_id').val(datum.id);
-			      	  $('#product_accept_kd').val(datum.kode);
-                  });
-				  
-		          $('#product_accept_kd').typeahead({
-                       "hint"     : true,
-                       "highlight": true,
-                       "minLength": 1,
-				       "limit"    : 15,
-                       "remote"   : "/inventory/order/accept/hok_adjust/act?unit_id="+$("#unit_id").val()+"&term=%QUERY",
-                  },{
-                      "name"      : 'product_accept_kd',
-                      "displayKey": 'value',
-                  });
-			
-                  $('#product_accept_kd').bind('typeahead:selected', function(obj, datum, name) {      
-                      $('#product_accept_id').val(datum.id);
-			      	  $('#product_accept_nm').val(datum.nama);
-                  });
             });
 			$("#unit_kd").attr('readonly',true);
-        </script>
-	</div>
-    <div class="form-group">
-        <div tal:define="field form['product_accept_id']" style="display: none;">
-              ${structure:field.serialize()}
-        </div>
-        <div tal:define="field form['product_accept_kd']" id="item-${field.oid}">
-            <label for="${field.oid}" class="control-label col-md-1" id="req-${field.oid}">
-                    ${field.title}</label>
-            <div class="col-md-2">
-               ${structure:field.serialize()}
-                <p id="error-${field.oid}" class="help-block" tal:condition="field.error"
-                   tal:repeat="error field.error.messages()">
-                   ${error}</p>
-            </div>
-        </div>
-        <div tal:define="field form['product_accept_nm']" id="item-${field.oid}">
-            <div class="col-md-7">
-               ${structure:field.serialize()}
-                <p id="error-${field.oid}" class="help-block" tal:condition="field.error"
-                   tal:repeat="error field.error.messages()">
-                   ${error}</p>
-            </div>
-        </div>
-        <script>
-            //$("#product_accept_kd").attr('readonly',true);
         </script>
 	</div>
 	<div class="form-group">
@@ -167,11 +109,9 @@
               <th>Kode Barang</th>
               <th>Nama Barang</th>
               <th>Stok</th>
-              <th>Jumlah Selisih</th>
+              <th>Jumlah</th>
               <th>Produk ID</th>
               <th>Adjust ID</th>
-              <th>Accept qty</th>
-              <th>Deliver qty</th>
           </tr>
       </thead>
       <tbody>
@@ -203,15 +143,7 @@
             <div class="col-md-2">
                <input id="p_qty" class=" form-control " type="text" value="0" name="p_qty">
             </div>
-            <label class="control-label col-md-1">Pengiriman</label>
-            <div class="col-md-1">
-               <input id="d_qty" class=" form-control " type="text" value="0" name="d_qty">
-            </div>
-            <label class="control-label col-md-1">Penerimaan</label>
-            <div class="col-md-1">
-               <input id="a_qty" class=" form-control " type="text" value="0" name="a_qty">
-            </div>
-            <label class="control-label col-md-1">Selisih</label>
+            <label class="control-label col-md-1">Jumlah</label>
             <div class="col-md-1">
                <input id="qty" class=" form-control " type="text" value="0" name="qty">
             </div>
@@ -266,8 +198,6 @@
 			            $('#p_kode').val('');
 			            $('#p_nama').val('');
                         $('#p_qty').val(0);
-                        $('#a_qty').val(0);
-                        $('#d_qty').val(0);
                         $('#qty').val(0);
                         oTable.fnReloadAjax(oTableUrl);
                     } else {
@@ -291,7 +221,7 @@
               "highlight": true,
               "minLength": 1,
 			  "limit"    : 15,
-              "remote"   : "/inventory/order/accept/hon_adjust_item/act?adjust="+$("#id").val()+"&term=%QUERY", 
+              "remote"   : "/inventory/produk/hon_receipt/act?term=%QUERY", 
           },{
              "name"      : 'p_nama',
              "displayKey": 'value',
@@ -301,9 +231,6 @@
                 $('#product_id').val(datum.id);
                 $('#p_kode').val(datum.kode);
                 $('#p_qty').val(datum.qty);
-                $('#a_qty').val(datum.a_qty);
-                $('#d_qty').val(datum.d_qty);
-                $('#qty').val((datum.d_qty)-(datum.a_qty));
           });
             
           $( "#detail" ).submit(function( event ) {
@@ -330,8 +257,6 @@
 					  $('#p_kode').val('');
 				      $('#p_nama').val('');
                       $('#p_qty').val(0);
-                      $('#a_qty').val(0);
-                      $('#d_qty').val(0);
                       $('#qty').val(0);
                       oTable.fnReloadAjax(oTableUrl);
                   } else {
@@ -395,7 +320,7 @@
             "aoColumnDefs": [{
                 "bSearchable": false,
                 "bVisible"   : false,
-                "aTargets"   : [0,5,6,7,8]
+                "aTargets"   : [0,5,6]
             },{
                 "bSearchable": true,
                 "aTargets"   : [4]
@@ -405,7 +330,7 @@
             },{
                 "bSearchable": false,
                 "bSortable"  : false,
-                "aTargets"   : [6,5,7,8]
+                "aTargets"   : [6,5]
             }            
             ],
             "aoColumns": [
@@ -416,8 +341,6 @@
                 {"sWidth": "20px", "sClass": "right"},
                 {"sWidth": "50px"}, 
                 {"sWidth": "50px"},
-                {"sWidth": "20px", "sClass": "right"},
-                {"sWidth": "20px", "sClass": "right"},
                 
             ],
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -436,8 +359,6 @@
 				        $('#p_nama').val(data[2]);
                         $('#p_qty').val(data[3]);
                         $('#qty').val(data[4]);
-                        $('#a_qty').val(data[7]);
-                        $('#d_qty').val(data[8]);
 
                         oTable.$('tr.row_selected').removeClass('row_selected');
                         $(this).addClass('row_selected');
@@ -478,8 +399,6 @@
                     $('#p_kode').val('');
 				    $('#p_nama').val('');
                     $('#p_qty').val(0);
-                    $('#a_qty').val(0);
-                    $('#d_qty').val(0);
                     $('#qty').val(0);
 
                     oTable.fnReloadAjax(oTableUrl);
@@ -508,10 +427,8 @@
         });
 
 		$("#p_kode").attr('readonly',true);
-		$("#qty").attr('readonly',true);
 		$("#p_qty").attr('readonly',true);
-		$("#a_qty").attr('readonly',true);
-		$("#d_qty").attr('readonly',true);
+		//$("#qty").attr('readonly',true);
      });
     </script>
 </div>

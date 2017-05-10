@@ -11,7 +11,6 @@
             <th>Nama</th>
             <th>Tanggal</th>
             <th>Unit Kerja</th>
-            <th>Penerimaan</th>
         </tr>
     </thead>
     <tbody>
@@ -62,7 +61,7 @@
               "aTargets"   : [0]
           },{
               "bSortable"  : false,
-              "aTargets"   : [4,5]
+              "aTargets"   : [4]
           }],
           "aoColumns": [
               null,
@@ -70,11 +69,10 @@
               {"width": "200px"},
               {"width": "60px"},
               {"width": "150px"},
-              {"width": "100px"},
           ]
         });
           
-		// Pencarian Kondisi, ketika data yang dicari itu bukan dari data table
+        // Pencarian Kondisi, ketika data yang dicari itu bukan dari data table
         $('#table1_filter input').unbind();
         $('#table1_filter input').bind('keyup', function(e) {
             if(e.keyCode == 13) {
@@ -88,8 +86,8 @@
                     oTable.fnReloadAjax(oTableUrl);
                 }
             }
-        });
-          
+        });          
+
         var tb_array = [
           '<div class="btn-group pull-left">',
           '	<button id="btn_add"    class="btn btn btn-primary" type="button">Tambah</button>',

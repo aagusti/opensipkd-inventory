@@ -78,7 +78,7 @@ def view_login(request):
             #request.session['login failed'] = e.render()
             return HTTPFound(location=request.route_url('login'))
         headers = get_login_headers(request, user)        
-        return HTTPFound(location=request.route_url('home'),
+        return HTTPFound(location=request.route_url('inventory'),
                           headers=headers)
     elif 'login failed' in request.session:
         r = dict(form=request.session['login failed'])

@@ -36,3 +36,8 @@ id,kode,path,nama
 35,"user-unit-act","/user/unit/{act}/act","Act user unit" 
 36,"admin-report","/admin/report","Laporan Admin"
 37,"admin-report-act","/admin/report/act/{act}","Laporan Admin Action"
+38,"route-group","/route/group","Daftar route groups"
+39,"route-group-act","/route/group/{act}/act","Act route groups"
+40,"route-group-add","/route/group/add","Tambah route groups"
+41,"route-group-edit","/route/group/{id}/edit","Edit route groups"
+42,"route-group-delete","/route/group/{id}/delete","Hapus route groups"

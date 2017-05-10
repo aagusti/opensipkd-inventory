@@ -4,7 +4,7 @@
 <!-- Main component for a primary marketing message or call to action -->
 <div class="well">
 <h1>Inventory</h1>
-<p><img src="/static/img/inventory.png" class="img-float img-thumbnail"/>
+<p><img src="/static/img/logo_kota_bogor.png" class="img-float img-thumbnail"/>
 Selamat datang di aplikasi <code>Managemen Inventory</code>, Aplikasi ini menggunakan
 <a href="http://pylonsproject.org/">Pyramid</a> Web Framework dan 
 <a href="http://postgresql.org/">Postgresql</a> Database.</p>

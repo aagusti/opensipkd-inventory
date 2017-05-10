@@ -63,7 +63,7 @@ def plan_act(request):
         columns.append(ColumnDT('nama'))
         columns.append(ColumnDT('adjust_date', filter=_DTstrftime))
         columns.append(ColumnDT('units.nama'))
-        columns.append(ColumnDT('product_accepts.nama'))
+        #columns.append(ColumnDT('product_accepts.nama'))
         
         query = DBSession.query(ProductAdjust)
         rowTable = DataTables(req, ProductAdjust, query, columns)
@@ -77,13 +77,13 @@ def plan_act(request):
         columns.append(ColumnDT('nama'))
         columns.append(ColumnDT('adjust_date', filter=_DTstrftime))
         columns.append(ColumnDT('units.nama'))
-        columns.append(ColumnDT('product_accepts.nama'))
+        #columns.append(ColumnDT('product_accepts.nama'))
         
         query = DBSession.query(ProductAdjust
-                        ).filter(ProductAdjust.product_accept_id==ProductAccept.id,
-                                 ProductAdjust.unit_id==Unit.id,
-                                 or_(ProductAccept.nama.ilike('%%%s%%' % cari),
-                                     Unit.nama.ilike('%%%s%%' % cari),))
+                        ).filter(ProductAdjust.unit_id==Unit.id,
+                                 or_(Unit.nama.ilike('%%%s%%' % cari),
+                                     ProductAdjust.kode.ilike('%%%s%%' % cari),
+                                     ProductAdjust.nama.ilike('%%%s%%' % cari),))
         rowTable = DataTables(req, ProductAdjust, query, columns)
         return rowTable.output_result()
        
@@ -108,11 +108,11 @@ def plan_act(request):
         term   = 'term'   in params and params['term']   or '' 
         adjust = 'adjust' in params and params['adjust'] or '' 
         
-        a = DBSession.query(ProductAdjust).filter(ProductAdjust.id  == accept).first()
-        x = a.product_accept_id
+        a = DBSession.query(ProductAdjust).filter(ProductAdjust.id  == adjust).first()
+        x = a.id
 		
         rows = DBSession.query(Product.id, Product.kode, Product.nama, ProductAdjustItem.qty
-                       ).filter(ProductAdjustItem.product_accept_id==x,
+                       ).filter(ProductAdjustItem.product_adjust_id==x,
                                 Product.id==ProductAdjustItem.product_id,
                                 Product.nama.ilike('%%%s%%' % term),).all()
         r = []
@@ -188,7 +188,7 @@ class AddSchema(colander.Schema):
     unit_nm             = colander.SchemaNode(
                           colander.String(),
                           oid = "unit_nm")
-				   
+    """			   
     product_accept_id   = colander.SchemaNode(
                           colander.Integer(),
                           oid = "product_accept_id")
@@ -199,7 +199,7 @@ class AddSchema(colander.Schema):
     product_accept_nm   = colander.SchemaNode(
                           colander.String(),
                           oid = "product_accept_nm")
-                
+    """            
 class EditSchema(AddSchema):
     id        = colander.SchemaNode(
                    colander.Integer(),
@@ -227,19 +227,19 @@ def save(values, user, row=None):
     row.disabled = 'disabled' in values and 1 or 0
     DBSession.add(row)
     DBSession.flush()
-	
+    """
     a = row.product_accept_id
     r = DBSession.query(ProductAccept).filter(ProductAccept.id==a).first()   
     r.disabled = 1
     save_request2(r)
-	
+    """
     return row
     
 def save_request(values, request, row=None):
     if 'id' in request.matchdict:
         values['id'] = request.matchdict['id']
     row = save(values, request.user, row)
-    request.session.flash('Penyesuaian gudang %s sudah disimpan.' % row.id)   
+    request.session.flash('Data %s sudah disimpan.' % row.nama)   
     return row
 	
 def route_list(request):
@@ -309,8 +309,8 @@ def view_edit(request):
     values = row.to_dict()
     values['unit_kd']   = row and row.units.kode   or ''
     values['unit_nm']   = row and row.units.nama   or ''
-    values['product_accept_kd'] = row and row.product_accepts.kode or ''
-    values['product_accept_nm'] = row and row.product_accepts.nama or ''
+    #values['product_accept_kd'] = row and row.product_accepts.kode or ''
+    #values['product_accept_nm'] = row and row.product_accepts.nama or ''
     form.set_appstruct(values)
     return dict(form=form)
 
@@ -323,7 +323,6 @@ def view_delete(request):
     q = query_id(request)
     row = q.first()
     a   = row.id
-    x   = row.product_accept_id
 	
     if not row:
         return id_not_found(request)
@@ -340,14 +339,10 @@ def view_delete(request):
     form = Form(colander.Schema(), buttons=('hapus','batal'))
     if request.POST:
         if 'hapus' in request.POST:
-            msg = 'Penyesuaian gudang ID %d sudah dihapus.' % (row.id)
+            msg = 'Data %s sudah dihapus.' % (row.nama)
             q.delete()
             DBSession.flush()
             request.session.flash(msg)
-	
-            r = DBSession.query(ProductAccept).filter(ProductAccept.id==x).first()   
-            r.disabled = 0
-            save_request2(r)
-	
+           
         return route_list(request)
     return dict(row=row, form=form.render())

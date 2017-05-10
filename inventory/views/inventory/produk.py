@@ -16,7 +16,21 @@ from ...models import(
     DBSession,
     )
 from ...models.inventory import (
-    Product, Satuan
+    Unit
+)
+from ...models.inventory import (
+    Product, 
+    Satuan, 
+    ProductReceipt,
+    ProductReceiptItem,
+    ProductRequest, 
+    ProductRequestItem, 
+    ProductDeliver, 
+    ProductDeliverItem, 
+    ProductAccept,
+    ProductAcceptItem,
+    ProductAdjust,
+    ProductAdjustItem	
     )
 from datatables import ColumnDT, DataTables
 from datetime import datetime
@@ -108,6 +122,38 @@ def produk_act(request):
         term = 'term'    in params and params['term']    or '' 
         rows = DBSession.query(Product.id, Product.kode, Product.nama, Product.qty
                        ).filter(Product.nama.ilike('%%%s%%' % term)).all()
+        r = []
+        for k in rows:
+            d={}
+            d['id']      = k[0]
+            d['value']   = k[2]
+            d['kode']    = k[1]
+            d['nama']    = k[2]
+            d['qty']     = k[3]
+            r.append(d)
+        return r
+    
+    elif url_dict['act']=='hon_adjust_item':
+        term = 'term'     in params and params['term']   or ''
+        adjust = 'adjust' in params and params['adjust'] or ''
+        ## Mencari unit_id ##
+        unit = DBSession.query(Unit.id
+                       ).join(ProductAdjust 
+                       ).filter(ProductAdjust.id == adjust,
+                                Unit.id == ProductAdjust.unit_id
+                       ).first()
+        ## Mencari barang sesuai unit di Penerimaan Gudang ##               
+        rows = DBSession.query(Product.id, 
+                               Product.kode, 
+                               Product.nama, 
+                               Product.qty
+                       #).outerjoin(ProductReceipt, 
+                       ).join(ProductReceiptItem
+                       ).filter(ProductReceipt.unit_id == unit,
+                                ProductReceiptItem.product_receipt_id == ProductReceipt.id,
+                                ProductReceiptItem.product_id == Product.id,
+                                Product.nama.ilike('%%%s%%' % term)
+                       ).all()
         r = []
         for k in rows:
             d={}

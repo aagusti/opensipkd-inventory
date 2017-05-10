@@ -59,8 +59,6 @@ def view_act(request):
         columns.append(ColumnDT('qty'))
         columns.append(ColumnDT('product_id'))
         columns.append(ColumnDT('product_adjust_id'))
-        columns.append(ColumnDT('a_qty'))
-        columns.append(ColumnDT('d_qty'))
         
         query = DBSession.query(ProductAdjustItem.id,
                                 Product.kode.label('p_kode'),
@@ -68,17 +66,10 @@ def view_act(request):
                                 Product.qty.label('p_qty'),
                                 ProductAdjustItem.qty,
                                 ProductAdjustItem.product_id,
-                                ProductAdjustItem.product_adjust_id,
-                                ProductAcceptItem.qty.label('a_qty'),
-                                ProductDeliverItem.qty.label('d_qty'),).\
-                          join(ProductAdjust).\
+                                ProductAdjustItem.product_adjust_id,).\
+                          join(ProductAdjust, Product).\
                           filter(ProductAdjustItem.product_adjust_id == product_adjust_id,
-                                 ProductAdjust.id                    == product_adjust_id,
-                                 ProductAdjust.product_accept_id     == ProductAccept.id,
-                                 ProductAccept.product_deliver_id    == ProductDeliverItem.product_deliver_id,					   
-                                 ProductAcceptItem.product_accept_id == ProductAccept.id,
-                                 ProductAcceptItem.product_id        == ProductDeliverItem.product_id,
-                                 Product.id                          == ProductAcceptItem.product_id,						  
+                                 ProductAdjustItem.product_id == Product.id						  
                                  )
                           
         rowTable = DataTables(req, ProductAdjustItem, query, columns)
@@ -133,8 +124,6 @@ def view_add(request):
     row.p_nama              = controls['p_nama']
     row.qty                 = controls['qty'].replace('.','')
     row.p_qty               = controls['p_qty'].replace('.','')
-    row.a_qty               = controls['a_qty'].replace('.','')
-    row.d_qty               = controls['d_qty'].replace('.','')
     
     DBSession.add(row)
     DBSession.flush()
@@ -202,8 +191,6 @@ def view_edit(request):
     row.p_nama              = controls['p_nama']
     row.qty                 = controls['qty'].replace('.','')
     row.p_qty               = controls['p_qty'].replace('.','')
-    row.a_qty               = controls['a_qty'].replace('.','')
-    row.d_qty               = controls['d_qty'].replace('.','')
     
     DBSession.add(row)
     DBSession.flush()

@@ -68,9 +68,9 @@
 		  ],
           "aoColumns": [
               null,
-              {"width": "180px"},
-              null,
-              {"width": "75px"},
+              {"width": "100px"},
+              {"width": "280px"},
+              {"width": "30px"},
               {"width": "280px"},
           ]
         });
